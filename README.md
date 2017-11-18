@@ -39,38 +39,38 @@ Your program should output: (1) region information and (2) re-colored image.
 1. Segment into two regions
 
 ```
-> java ImgSeg -k 2 image/2-1.png
+> java  -k 2 image/2-1.png
 region 1 size= 8313 color=java.awt.Color[r=250,g=250,b=252]
 region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
 - Saved result to image/2-1_seg_2.png
 ```
 
-![input](https://github.com/jmlien/ImgSeg/blob/master/image/2-1.png "input")|![output](https://github.com/jmlien/ImgSeg/blob/master/output/2-1_seg_2.png "output")
+![input](https://github.com/jmlien//blob/master/image/2-1.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/2-1_seg_2.png "output")
 :---: | :---: 
 input|output
 
 2. Segment into 3 regions
 
 ```
-> java ImgSeg -k 2 image/3.png
+> java  -k 2 image/3.png
 region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
 region 2 size= 5247 color=java.awt.Color[r=143,g=77,b=143]
 - Saved result to image/3_seg_2.png
 
-> java ImgSeg -k 3 image/3.png
+> java  -k 3 image/3.png
 region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
 region 2 size= 4236 color=java.awt.Color[r=145,g=63,b=145]
 region 3 size= 1011 color=java.awt.Color[r=136,g=136,b=136]
 - Saved result to image/3_seg_3.png
 ```
-![input](https://github.com/jmlien/ImgSeg/blob/master/image/3.png "input")|![output](https://github.com/jmlien/ImgSeg/blob/master/output/3_seg_2.png "output")|![output](https://github.com/jmlien/ImgSeg/blob/master/output/3_seg_3.png "output")
+![input](https://github.com/jmlien//blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_2.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")
 :---: | :---: | :---:
 input|_K_=2|_K_=3
 
 3. Segment into K>3 regions
 
 ```
-> java ImgSeg -k 10 image/Leiadeathstar.jpg
+> java  -k 10 image/Leiadeathstar.jpg
 region 1 size= 13761 color=java.awt.Color[r=34,g=37,b=44]
 region 2 size= 7883 color=java.awt.Color[r=158,g=171,b=191]
 region 3 size= 7807 color=java.awt.Color[r=35,g=37,b=45]
@@ -83,7 +83,7 @@ region 9 size= 963 color=java.awt.Color[r=141,g=130,b=128]
 region 10 size= 696 color=java.awt.Color[r=168,g=109,b=99]
 - Saved result to image/Leiadeathstar_seg_10.png
 
-> java ImgSeg -k 100 image/Leiadeathstar.jpg
+> java  -k 100 image/Leiadeathstar.jpg
 region 1 size= 4346 color=java.awt.Color[r=16,g=20,b=29]
 region 2 size= 3685 color=java.awt.Color[r=40,g=52,b=76]
 region 3 size= 3588 color=java.awt.Color[r=114,g=147,b=186]
@@ -93,11 +93,11 @@ region 100 size= 5 color=java.awt.Color[r=183,g=140,b=140]
 - Saved result to image/Leiadeathstar_seg_100.png
 ```
 
-![input](https://github.com/jmlien/ImgSeg/blob/master/image/Leiadeathstar.jpg "input")|![output](https://github.com/jmlien/ImgSeg/blob/master/output/Leiadeathstar_seg_10.png "output")|![output](https://github.com/jmlien/ImgSeg/blob/master/output/Leiadeathstar_seg_100.png "output")
+![input](https://github.com/jmlien//blob/master/image/Leiadeathstar.jpg "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/Leiadeathstar_seg_10.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/Leiadeathstar_seg_100.png "output")
 :---: | :---: | :---:
 input|_K_=10|_K_=100
 
-4. Need more examples? Look under [output folder](https://github.com/jmlien/ImgSeg/blob/master/output)
+4. Need more examples? Look under [output folder](https://github.com/jmlien//blob/master/output)
 
 ## Definitions
 
@@ -118,7 +118,7 @@ Please familiarize yourself with these terms and their definitions before you mo
 - A region is identified by one of its pixels that is the root in the disjoint sets data structure. 
 - Two regions are neighbors if some of their pixels are adjacent. For example, region _E_ is neighboring to regions _A_, _C_, _G_, but not regions _B_, _D_, _F_ in the image below.
 
-![regions](https://github.com/jmlien/ImgSeg/blob/master/image/regions.png "regions")
+![regions](https://github.com/jmlien//blob/master/image/regions.png "regions")
 
 ### Similarity
 
