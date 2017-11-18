@@ -45,7 +45,7 @@ region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
 - Saved result to image/2-1_seg_2.png
 ```
 
-![input](https://github.com/jmlien//blob/master/image/2-1.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/2-1_seg_2.png "output")
+![input](https://github.com/jmlien/cs310-pa4/blob/master/image/2-1.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/2-1_seg_2.png "output")
 :---: | :---: 
 input|output
 
@@ -63,7 +63,7 @@ region 2 size= 4236 color=java.awt.Color[r=145,g=63,b=145]
 region 3 size= 1011 color=java.awt.Color[r=136,g=136,b=136]
 - Saved result to image/3_seg_3.png
 ```
-![input](https://github.com/jmlien//blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_2.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")
+![input](https://github.com/jmlien/cs310-pa4/blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_2.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")
 :---: | :---: | :---:
 input|_K_=2|_K_=3
 
@@ -93,7 +93,7 @@ region 100 size= 5 color=java.awt.Color[r=183,g=140,b=140]
 - Saved result to image/Leiadeathstar_seg_100.png
 ```
 
-![input](https://github.com/jmlien//blob/master/image/Leiadeathstar.jpg "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/Leiadeathstar_seg_10.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/Leiadeathstar_seg_100.png "output")
+![input](https://github.com/jmlien/cs310-pa4/blob/master/image/Leiadeathstar.jpg "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/Leiadeathstar_seg_10.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/Leiadeathstar_seg_100.png "output")
 :---: | :---: | :---:
 input|_K_=10|_K_=100
 
@@ -118,7 +118,7 @@ Please familiarize yourself with these terms and their definitions before you mo
 - A region is identified by one of its pixels that is the root in the disjoint sets data structure. 
 - Two regions are neighbors if some of their pixels are adjacent. For example, region _E_ is neighboring to regions _A_, _C_, _G_, but not regions _B_, _D_, _F_ in the image below.
 
-![regions](https://github.com/jmlien//blob/master/image/regions.png "regions")
+![regions](https://github.com/jmlien/cs310-pa4/blob/master/image/regions.png "regions")
 
 ### Similarity
 
