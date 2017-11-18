@@ -97,7 +97,7 @@ region 100 size= 5 color=java.awt.Color[r=183,g=140,b=140]
 :---: | :---: | :---:
 input|_K_=10|_K_=100
 
-4. Need more examples? Look under [output folder](https://github.com/jmlien//blob/master/output)
+4. Need more examples? Look under [output folder](https://github.com/jmlien/cs310-pa4/blob/master/output)
 
 ## Definitions
 
