@@ -31,8 +31,8 @@ Your program should output: (1) region information and (2) re-colored image.
   1. size of the region, this is the number of pixels in the region
   2. color of the region, this color is the average color of all pixels in the region
 - An image file, in which, all pixels in the same region are assigned the average color of the region. 
-  - The image filename must be named **ABCD_seg_K.png** if your input file is "ABCD.xyz" where xyz is jpg or png and K is the the input argument _K_
-- See [example output](#examples) above; your program must reproduce the same output.
+  - The image filename must be named **ABCD_seg_K.png** if your input file is "ABCD.xyz" where xyz is jpg or png and _K_ is the input argument _K_
+- See [example output](#examples) below; your program must reproduce the same output.
 
 ## Examples
 
