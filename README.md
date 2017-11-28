@@ -269,17 +269,19 @@ public void segment(int K) //K is the number of desired segments
 1. Create ```DisjointSets<Pixel>``` and populate it with all pixels
 2. Create ```PriorityQueue<Similarity>```, which should contain all possible pairs of neighboring pixels and their similarity values. Use your ```getSimilarity``` (from task 3) to compute the similarity. 
 3. Loop until the number of regions equals _K_; in each iteration,
-  - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions 
-  - If the regions are _not_ disjoint, ignore the pair
+  - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions represented by two pixels (_p1_, _p2_)
+  - If _p1_ and _p2_ are _not_ disjoint, ignore the pair
   - Otherwise
-    1. If the pixels are no longer roots of their own sets (this may have happened due to an earlier union):
+    1. If _p1_ and _p2_ are no longer roots of their own sets (this may have happened due to an earlier union):
 	  - if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of both pairs back into the queue (there may be higher priority things than the union of the two roots).
 	  - if the similarity distance is 0 (in otherwords, the two regions were identical)
 	  	- union the roots (as you can't be any more similar than a distance of 0).
 	2. If the pixels are both roots of their own sets:
-      - union the pair (we'll call this new region _R_)
-      - measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
-	  - add each new similarity to your priority queue
+	- **If ```getSimilarity``` of _p1_ and _p2_ returns a different similarity, ignore the pair** (again, due to an earlier union)
+	- Otherwise
+		- union the pair (we'll call this new region _R_)
+		- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
+		- add each new similarity to your priority queue
 
 
 ### Task 5: Output (10%)
