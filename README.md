@@ -228,13 +228,14 @@ private ArrayList<Pixel> getNeightbors(Pixel pixel)
 Given two regions _R1_ and _R2_, implement a function to compute the similarity between these two regions.
 
 **High-level idea**
-Let _R_ be the union of _R1_ and _R2_, and [let _C_ be the color of _R_](#region). The error induced by uniting _R1_ and _R2_ is the sum of the differences between _C_ and all pixels in _R_, i.e., cost of changing all pixels in _R_ to color _C_. Apparently, we would like to have this error as small as possible. 
+
+Let _R_ be the union of _R1_ and _R2_, and [let _C_ be the color of _R_](#region). We are interested in knowing the cost of changing all pixels in _R_ to color _C_. Thus, the error induced by uniting _R1_ and _R2_ is the sum of the differences between _C_ and all pixels in _R_. Apparently, we would like to have this error as small as possible to produce a good segmentation. 
 
 **Here is what you should do**
 
 Compute the color _C_ of region _R_ without actually computing the union of _R1_ and _R2_.
 To do so, _C_ can be computed with the following formula:
-- _C_.red = ((_C1_.red * pixels-in-_R1_)+(_C2_.red * pixels-in-_R2_))/(total-number-of-pixels-in-_R1_-and-_R2_)
+- _C_.red = ((_C1_.red * #-of-pixels-in-_R1_)+(_C2_.red * #-of-pixels-in-_R2_))/(total-number-of-pixels-in-_R1_-and-_R2_)
 Here _C1_ and _C2_ are the colors of _R1_ and _R2_, respectively. 
 - _C_.blue and _C_.green are defined exactly the same. 
 
