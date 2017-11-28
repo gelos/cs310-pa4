@@ -87,25 +87,25 @@ input|_K_=3|_K_=4
 
 ```
 > java ImgSeg -k 10 image/Leiadeathstar.jpg
-region 1 size= 13761 color=java.awt.Color[r=34,g=37,b=44]
-region 2 size= 7883 color=java.awt.Color[r=158,g=171,b=191]
-region 3 size= 7807 color=java.awt.Color[r=35,g=37,b=45]
-region 4 size= 7593 color=java.awt.Color[r=191,g=189,b=194]
-region 5 size= 7580 color=java.awt.Color[r=186,g=188,b=196]
-region 6 size= 4717 color=java.awt.Color[r=54,g=58,b=69]
-region 7 size= 1936 color=java.awt.Color[r=123,g=85,b=79]
-region 8 size= 1064 color=java.awt.Color[r=160,g=105,b=92]
-region 9 size= 963 color=java.awt.Color[r=141,g=130,b=128]
-region 10 size= 696 color=java.awt.Color[r=168,g=109,b=99]
+region 1 size= 8071 color=java.awt.Color[r=25,g=27,b=28]
+region 2 size= 7163 color=java.awt.Color[r=195,g=198,b=206]
+region 3 size= 6374 color=java.awt.Color[r=18,g=22,b=30]
+region 4 size= 6337 color=java.awt.Color[r=204,g=205,b=209]
+region 5 size= 5681 color=java.awt.Color[r=43,g=50,b=66]
+region 6 size= 5464 color=java.awt.Color[r=134,g=155,b=185]
+region 7 size= 5441 color=java.awt.Color[r=94,g=85,b=93]
+region 8 size= 3368 color=java.awt.Color[r=144,g=96,b=89]
+region 9 size= 3256 color=java.awt.Color[r=40,g=38,b=40]
+region 10 size= 2845 color=java.awt.Color[r=231,g=228,b=230]
 - Saved result to image/Leiadeathstar_seg_10.png
 
 > java ImgSeg -k 100 image/Leiadeathstar.jpg
-region 1 size= 4346 color=java.awt.Color[r=16,g=20,b=29]
-region 2 size= 3685 color=java.awt.Color[r=40,g=52,b=76]
-region 3 size= 3588 color=java.awt.Color[r=114,g=147,b=186]
-region 4 size= 2902 color=java.awt.Color[r=191,g=197,b=209]
+region 1 size= 3743 color=java.awt.Color[r=12,g=15,b=21]
+region 2 size= 3700 color=java.awt.Color[r=40,g=53,b=77]
+region 3 size= 2923 color=java.awt.Color[r=228,g=234,b=240]
+region 4 size= 2902 color=java.awt.Color[r=114,g=150,b=189]
 [snipped...]
-region 100 size= 5 color=java.awt.Color[r=183,g=140,b=140]
+region 100 size= 23 color=java.awt.Color[r=139,g=142,b=143]
 - Saved result to image/Leiadeathstar_seg_100.png
 ```
 
