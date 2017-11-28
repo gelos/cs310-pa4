@@ -169,7 +169,7 @@ private ArrayList<Pixel> getNeightbors(Pixel pixel);
 - Implement DisjointSets<T> in DisjointSets.java **(15%)**
 
 _Hints_
-- Each Set represents a region of contiguous pixels
+- Each Set represents a [region](#region) of contiguous pixels
 - Initially every pixel is its own region
 - You can use/modify the DisjointSets code from your textbook
 
@@ -226,16 +226,23 @@ private ArrayList<Pixel> getNeightbors(Pixel pixel)
 #### Task 3: Compute region to region similarity (10%)     
 
 Given two regions _R1_ and _R2_, implement a function to compute the similarity between these two regions.
-A region is considered similar to another region based on the distance from the weighted root colors _C_. _C_ can be computed with the following formula:
-- C-red = ((R1-red * pixels-in-R1)+(R2-red * pixels-in-R2))/(total-number-of-pixels-in-R1-and-R2)
-- C-green = ((R1-green * pixels-in-R1)+(R2-green * pixels-in-R2))/(total-number-of-pixels-in-R1-and-R2)
-- C-blue = ((R1-blue * pixels-in-R1)+(R2-blue * pixels-in-R2))/(total-number-of-pixels-in-R1-and-R2)
+
+**High-level idea**
+Let _R_ be the union of _R1_ and _R2_, and [let _C_ be the color of _R_](#region). The error induced by uniting _R1_ and _R2_ is the sum of the differences between _C_ and all pixels in _R_, i.e., cost of changing all pixels in _R_ to color _C_. Apparently, we would like to have this error as small as possible. 
+
+**Here is what you should do**
+
+Compute the color _C_ of region _R_ without actually computing the union of _R1_ and _R2_.
+To do so, _C_ can be computed with the following formula:
+- _C_.red = ((_C1_.red * pixels-in-_R1_)+(_C2_.red * pixels-in-_R2_))/(total-number-of-pixels-in-_R1_-and-_R2_)
+Here _C1_ and _C2_ are the colors of _R1_ and _R2_, respectively. 
+- _C_.blue and _C_.green are defined exactly the same. 
 
 To compute the distance, you'll need to compute **the sum of all color differences** between _C_ and all pixels in _R1_ and _R2_. 
 
-Hint: Iterate through all pixels and sum the result returned by the getDifference() helper function.
+Hint 1: Iterate through all pixels and sum the result returned by the getDifference() helper function.
 
-Return a new ```Similarity``` where distance is the sum computed above, and the two pixels are the pixels of root1 and root2.
+Hint 2: Return a new ```Similarity``` where distance is the sum computed above, and the two pixels are the pixels of root1 and root2.
     
 ```java
 private Similarity getSimilarity(DisjointSets<Pixel> ds, int R1, int R2);
@@ -252,6 +259,7 @@ public void segment(int K) //K is the number of desired segments
 **High-level idea**
 
 - Iteratively merging two adjacent regions with most similar colors until the number of regions is _K_.
+- **When two regions _R1_ and _R2_ are merged into a new region _R_, the similarities between _R_ and its neighbors must be estimated and added to the queue as the color of _R_ is different from the colors of _R1_ and _R2_.**
 
 **Here is what you should do** in this function:
 
@@ -263,7 +271,10 @@ public void segment(int K) //K is the number of desired segments
   - Otherwise
     1. If the pixels are no longer roots of their own sets (this may have happened due to an earlier union):
 	  - if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of both pairs back into the queue (there may be higher priority things than the union of the two roots).
-	  - if the similarity distance is 0 (in otherwords, the two regions were identical), union the roots (you can't be any more similar than a distance of 0).
+	  - if the similarity distance is 0 (in otherwords, the two regions were identical)
+	  	- union the roots and call this new region _R_ (as you can't be any more similar than a distance of 0).
+		- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
+		- add each new similarity to your priority queue
 	2. If the pixels are both roots of their own sets:
       - compute the union of the pair (we'll call this new region _R_)
       - measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
