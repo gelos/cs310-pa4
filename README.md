@@ -24,7 +24,6 @@
 - A positive integer _K_ > 1, i.e., the number of final regions
 
 ### Output 
-*(updated on Nov 28th)*
 
 Your program should output: (1) region information and (2) re-colored image. 
 
@@ -36,6 +35,7 @@ Your program should output: (1) region information and (2) re-colored image.
 - See [example output](#examples) below; your program must reproduce the same output.
 
 ## Examples
+*(updated on Nov 28th)*
 
 1. Segment into two regions
 
