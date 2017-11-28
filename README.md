@@ -23,7 +23,8 @@
 - A single bitmap RGB image in jpg or png formats. 
 - A positive integer _K_ > 1, i.e., the number of final regions
 
-### Output
+### Output 
+*(updated on Nov 28th)*
 
 Your program should output: (1) region information and (2) re-colored image. 
 
