@@ -39,7 +39,7 @@ Your program should output: (1) region information and (2) re-colored image.
 1. Segment into two regions
 
 ```
-> java  -k 2 image/2-1.png
+> java ImgSeg -k 2 image/2-1.png
 region 1 size= 8313 color=java.awt.Color[r=250,g=250,b=252]
 region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
 - Saved result to image/2-1_seg_2.png
@@ -52,12 +52,12 @@ input|output
 2. Segment into 3 regions
 
 ```
-> java  -k 2 image/3.png
+> java ImgSeg -k 2 image/3.png
 region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
 region 2 size= 5247 color=java.awt.Color[r=143,g=77,b=143]
 - Saved result to image/3_seg_2.png
 
-> java  -k 3 image/3.png
+> java ImgSeg -k 3 image/3.png
 region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
 region 2 size= 4236 color=java.awt.Color[r=145,g=63,b=145]
 region 3 size= 1011 color=java.awt.Color[r=136,g=136,b=136]
@@ -70,7 +70,7 @@ input|_K_=2|_K_=3
 3. Segment into K>3 regions
 
 ```
-> java  -k 10 image/Leiadeathstar.jpg
+> java ImgSeg -k 10 image/Leiadeathstar.jpg
 region 1 size= 13761 color=java.awt.Color[r=34,g=37,b=44]
 region 2 size= 7883 color=java.awt.Color[r=158,g=171,b=191]
 region 3 size= 7807 color=java.awt.Color[r=35,g=37,b=45]
@@ -83,7 +83,7 @@ region 9 size= 963 color=java.awt.Color[r=141,g=130,b=128]
 region 10 size= 696 color=java.awt.Color[r=168,g=109,b=99]
 - Saved result to image/Leiadeathstar_seg_10.png
 
-> java  -k 100 image/Leiadeathstar.jpg
+> java ImgSeg -k 100 image/Leiadeathstar.jpg
 region 1 size= 4346 color=java.awt.Color[r=16,g=20,b=29]
 region 2 size= 3685 color=java.awt.Color[r=40,g=52,b=76]
 region 3 size= 3588 color=java.awt.Color[r=114,g=147,b=186]
