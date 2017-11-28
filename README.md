@@ -223,7 +223,8 @@ _Hints_: Use TreeSet<T> and the following private method.
 private ArrayList<Pixel> getNeightbors(Pixel pixel)
 ```
 
-#### Task 3: Compute region to region similarity (10%)     
+#### Task 3: Compute region to region similarity (10%) 
+*(updated on Nov 27)*
 
 Given two regions _R1_ and _R2_, implement a function to compute the similarity between these two regions.
 
@@ -250,6 +251,7 @@ private Similarity getSimilarity(DisjointSets<Pixel> ds, int R1, int R2);
 ```
 
 ### Task 4: Implement the decomposor (50%)
+*(updated on Nov 27)*
 
 Implement the following method
 
