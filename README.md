@@ -38,10 +38,23 @@ Your program should output: (1) region information and (2) re-colored image.
 
 1. Segment into two regions
 
+
+```
+> java ImgSeg -k 2 image/tiny.png
+region 1 size= 50 color=java.awt.Color[r=17,g=88,b=38]
+region 2 size= 50 color=java.awt.Color[r=246,g=141,b=145]
+- Saved result to image/tiny_seg_2.png
+```
+
+<img src="https://github.com/jmlien/cs310-pa4/blob/master/image/tiny.png" width="100" />|<img src="https://github.com/jmlien/cs310-pa4/blob/master/output/tiny_seg_2.png" width="100"  />
+:---: | :---: 
+input|output
+
+
 ```
 > java ImgSeg -k 2 image/2-1.png
-region 1 size= 8313 color=java.awt.Color[r=250,g=250,b=252]
-region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
+region 1 size= 8267 color=java.awt.Color[r=250,g=251,b=252]
+region 2 size= 3133 color=java.awt.Color[r=62,g=86,b=144]
 - Saved result to image/2-1_seg_2.png
 ```
 
@@ -49,23 +62,25 @@ region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
 :---: | :---: 
 input|output
 
-2. Segment into 3 regions
+2. Segment into 3 or 4 regions
 
 ```
-> java ImgSeg -k 2 image/3.png
-region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
-region 2 size= 5247 color=java.awt.Color[r=143,g=77,b=143]
-- Saved result to image/3_seg_2.png
-
 > java ImgSeg -k 3 image/3.png
-region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
-region 2 size= 4236 color=java.awt.Color[r=145,g=63,b=145]
-region 3 size= 1011 color=java.awt.Color[r=136,g=136,b=136]
+region 1 size= 5115 color=java.awt.Color[r=141,g=73,b=141]
+region 2 size= 4829 color=java.awt.Color[r=253,g=252,b=253]
+region 3 size= 156 color=java.awt.Color[r=246,g=242,b=246]
 - Saved result to image/3_seg_3.png
+
+> java ImgSeg -k 4 image/3.png
+region 1 size= 4829 color=java.awt.Color[r=253,g=252,b=253]
+region 2 size= 4100 color=java.awt.Color[r=142,g=57,b=142]
+region 3 size= 1015 color=java.awt.Color[r=136,g=135,b=136]
+region 4 size= 156 color=java.awt.Color[r=246,g=242,b=246]
+- Saved result to image/3_seg_4.png
 ```
-![input](https://github.com/jmlien/cs310-pa4/blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_2.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")
+![input](https://github.com/jmlien/cs310-pa4/blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_4.png "output")
 :---: | :---: | :---:
-input|_K_=2|_K_=3
+input|_K_=3|_K_=4
 
 3. Segment into K>3 regions
 
