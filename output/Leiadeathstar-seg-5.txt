@@ -1,0 +1,5 @@
+region 1 size= 15071 color=java.awt.Color[r=50,g=48,b=55]
+region 2 size= 14646 color=java.awt.Color[r=183,g=191,b=204]
+region 3 size= 13752 color=java.awt.Color[r=33,g=36,b=44]
+region 4 size= 7163 color=java.awt.Color[r=195,g=198,b=206]
+region 5 size= 3368 color=java.awt.Color[r=144,g=96,b=89]
