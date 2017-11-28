@@ -285,7 +285,7 @@ public void segment(int K) //K is the number of desired segments
 1. Create ```DisjointSets<Pixel>``` and populate it with all pixels
 2. Create ```PriorityQueue<Similarity>```, which should contain all possible pairs of neighboring pixels and their similarity values. Use your ```getSimilarity``` (from task 3) to compute the similarity. 
 3. Loop until the number of regions equals _K_; in each iteration,
-  - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions represented by two pixels (_p1_, _p2_)
+  - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions **represented by two pixels (_p1_, _p2_) with similarity _S_**
   - If the regions represented by _p1_ and _p2_ are _not_ disjoint, ignore the pair
   - Otherwise
   	1. If _p1_ and _p2_ are no longer roots of their own regions (this may have happened due to an earlier union):
@@ -293,7 +293,7 @@ public void segment(int K) //K is the number of desired segments
 		- if the similarity distance is 0 (in otherwords, the two regions were identical)
 	  		- union the roots (as you can't be any more similar than a distance of 0).
 	2. If _p1_ and _p2_ are both roots of their own regions:
-		- **If ```getSimilarity``` of _p1_ and _p2_ returns a different similarity, ignore the pair** (again, due to an earlier union)
+		- **If ```getSimilarity``` of _p1_ and _p2_ returns a similarity different from _S_, ignore the pair** (again, due to an earlier union)
 		- Otherwise
 			- union the pair (we'll call this new region _R_)
 			- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
