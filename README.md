@@ -5,7 +5,7 @@
 ## Assignment Objective
 - Write a program to segment an image into _K_>1 regions, where _K_ is a user parameter.
 - Learn to use _priority queue_ (binary heap) and _disjoint sets_ (union-find data structure)
-- Image segmentation is one of the most fundamental operation in computer vision and image processing and has many many applications; [Learn more about image segmentation from Wikipedia](https://en.wikipedia.org/wiki/Image_segmentation)
+- Image segmentation is one of the most fundamental operations in computer vision and image processing and has many many applications; [Learn more about image segmentation from Wikipedia](https://en.wikipedia.org/wiki/Image_segmentation)
 
 ## Table of Contents
 1. [Input/Output](#input-output)
