@@ -276,8 +276,6 @@ public void segment(int K) //K is the number of desired segments
 	  - if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of both pairs back into the queue (there may be higher priority things than the union of the two roots).
 	  - if the similarity distance is 0 (in otherwords, the two regions were identical)
 	  	- union the roots and call this new region _R_ (as you can't be any more similar than a distance of 0).
-		- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
-		- add each new similarity to your priority queue
 	2. If the pixels are both roots of their own sets:
       - compute the union of the pair (we'll call this new region _R_)
       - measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
