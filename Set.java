@@ -6,6 +6,7 @@
 
 //You cannot import additonal items
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Iterator;
 //You cannot import additonal items
 
@@ -17,43 +18,55 @@ import java.util.Iterator;
 
 public class Set<T> extends AbstractCollection<T>
 {
+    // Constructor
+  
+    public Set() {
+      data = new ArrayList<T>();
+    }
+    
 	//O(1)
 	public boolean add(T item)
 	{
-		return false;
+		return data.add(item);
 	}
 	
 	//O(1)
 	public boolean addAll(Set<T> other)
 	{
-		return false;
+		return data.addAll(other);
 	}
 	
 	//O(1)
 	public void clear()
 	{
-		
+		data.clear();
 	}
 	
 	//O(1)
 	public int size()
 	{
-		return -1;
+		return data.size();
 	}
 	
 	public Iterator<T> iterator()
 	{
 		return new Iterator<T>()
 		{
+		    private Iterator<T> iter = data.iterator();
 			public T next()
 			{
-				return null;
+				//return null;
+			    return iter.next();
 			}
 			
 			public boolean hasNext()
 			{
-				return false;
+				//return false;
+			  return iter.hasNext();
 			}
 		};
 	}
+	
+	// Data
+	private ArrayList<T> data;
 }
