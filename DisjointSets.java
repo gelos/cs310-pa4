@@ -37,7 +37,7 @@ public class DisjointSets<T>
     // must be O(1) time
 	public int getNumSets()
 	{
-		return -1; //TODO: remove and replace this line
+		return sets.size();
 	}
 
     //Data
