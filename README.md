@@ -1,5 +1,9 @@
 # A Tiny Image Segmentation 
 
+![](output/bird_seg_20.png "")|![](output/bird_seg_40.png "")|![](output/bird_seg_100.png "")|![](output/bird_seg_500.png "")
+:---: | :---: |:---: | :---: 
+
+
 - CS 310 Programming Assignment 4 Due: **Dec 10th** (Sunday) 11:59pm, 2017
 
 ## Assignment Objective
