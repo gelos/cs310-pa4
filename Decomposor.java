@@ -167,7 +167,12 @@ public class Decomposor extends JPanel
 
       public int compareTo( Similarity other )
       {
-        return this.distance - other.distance;
+        //remove ambiguity~ update: 11/28/2017
+        int diff=this.distance - other.distance;
+        if(diff!=0) return diff;
+        diff=getID(this.pixels.p) - getID(other.pixels.p);
+        if(diff!=0) return diff;
+        return getID(this.pixels.q) - getID(other.pixels.q);
       }
 
       //a pair of ajacent pixels or regions (represented by the "root" pixels)
@@ -253,6 +258,7 @@ public class Decomposor extends JPanel
     //
     public void paint(Graphics g)
     {
+      //12f8388e73ae05b92056865f9170525e
       g.drawImage(this.image, 0, 0,this);
     }
 }
