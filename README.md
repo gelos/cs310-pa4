@@ -288,7 +288,7 @@ public void segment(int K) //K is the number of desired segments
   - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions **represented by two pixels (_p1_, _p2_) with similarity _S_**
   - If the regions represented by _p1_ and _p2_ are _not_ disjoint, ignore the pair
   - Otherwise
-  	1. If _p1_ and _p2_ are no longer roots of their own regions (this may have happened due to an earlier union):
+  	1. If _p1_ **or** _p2_ are no longer roots of their own regions (this may have happened due to an earlier union):
 		- if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of both pairs back into the queue (there may be higher priority things than the union of the two roots).
 		- if the similarity distance is 0 (in otherwords, the two regions were identical)
 	  		- union the roots (as you can't be any more similar than a distance of 0).
