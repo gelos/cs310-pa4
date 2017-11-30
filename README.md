@@ -39,7 +39,7 @@ Your program should output: (1) region information and (2) re-colored image.
 - See [example output](#examples) below; your program must reproduce the same output.
 
 ## Examples
-*(updated on Nov 28th)*
+*(updated on Nov 28th and 29th)*
 
 1. Segment into two regions
 
