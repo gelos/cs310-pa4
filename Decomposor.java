@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Collections;
 import java.util.AbstractCollection;
 
@@ -37,6 +38,30 @@ public class Decomposor extends JPanel
     //
     private Similarity getSimilarity(DisjointSets<Pixel> ds, int root1, int root2)
     {
+      
+      Color C1 = computeAverageColor(ds.get(root1));
+      Color C2 = computeAverageColor(ds.get(root2));
+      
+      int sizeR1 = ds.get(root1).size();
+      int sizeR2 = ds.get(root1).size();
+      int sizeSumR1R2 = sizeR1+sizeR2;
+      
+      int redC = ((C1.getRed() * sizeR1)+(C2.getRed() * sizeR2))/(sizeSumR1R2);
+      int greenC = ((C1.getGreen() * sizeR1)+(C2.getGreen() * sizeR2))/(sizeSumR1R2);
+      int blueC = ((C1.getBlue() * sizeR1)+(C2.getBlue() * sizeR2))/(sizeSumR1R2);
+
+      Color C = new Color(redC, greenC, blueC);
+      
+      int sumSimilarity = 0;
+      
+      Set<Pixel> R1 = ds.get(root1);
+      Set<Pixel> R2 = ds.get(root1);
+      Iterator<Pixel> itR1 = R1.iterator();
+      Iterator<Pixel> itR2 = R2.iterator();
+      
+      for(itR1.hasNext())
+      
+      
       return null; //TODO: remove and replace this line
     }
 
@@ -92,11 +117,17 @@ public class Decomposor extends JPanel
           }
         });
 
-        //recolor and output region info
+        //Recolors and output region info
 		
-      //Todo: Your code here (remove this line)
+      //TODO: Your code here (remove this line)
       //Hint: Use image.setRGB(x,y,c.getRGB()) to change the color of a pixel (x,y) to the given color "c"
-
+        for (int h = 0; h < height; h++) {
+          for (int w = 0; w < width; w++) {
+            Color c = new Color(255, 255, 255);
+            this.image.setRGB(w, h, c.getRGB());
+          }
+        }
+        
       //save output image
       String out_filename = img_filename+"_seg_"+K+".png";
       try
