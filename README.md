@@ -1,6 +1,6 @@
 # A Tiny Image Segmentation 
 
-![](output/bird_seg_10.png "")|![](output/bird_seg_40.png "")|![](output/bird_seg_100.png "")|![](output/bird_seg_500.png "")
+![](output/bird_seg_5.png "")|![](output/bird_seg_10.png "")|![](output/bird_seg_100.png "")|![](output/bird_seg_1000.png "")
 :---: | :---: |:---: | :---: 
 
 
