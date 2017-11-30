@@ -46,8 +46,8 @@ Your program should output: (1) region information and (2) re-colored image.
 
 ```
 > java ImgSeg -k 2 image/tiny.png
-region 1 size= 50 color=java.awt.Color[r=17,g=88,b=38]
-region 2 size= 50 color=java.awt.Color[r=246,g=141,b=145]
+region 1 size= 50 color=java.awt.Color[r=246,g=141,b=145]
+region 2 size= 50 color=java.awt.Color[r=17,g=88,b=38]
 - Saved result to image/tiny_seg_2.png
 ```
 
@@ -58,8 +58,8 @@ input|output
 
 ```
 > java ImgSeg -k 2 image/2-1.png
-region 1 size= 8267 color=java.awt.Color[r=250,g=251,b=252]
-region 2 size= 3133 color=java.awt.Color[r=62,g=86,b=144]
+region 1 size= 8168 color=java.awt.Color[r=252,g=252,b=253]
+region 2 size= 3232 color=java.awt.Color[r=64,g=88,b=146]
 - Saved result to image/2-1_seg_2.png
 ```
 
@@ -71,16 +71,16 @@ input|output
 
 ```
 > java ImgSeg -k 3 image/3.png
-region 1 size= 5115 color=java.awt.Color[r=141,g=73,b=141]
-region 2 size= 4829 color=java.awt.Color[r=253,g=252,b=253]
-region 3 size= 156 color=java.awt.Color[r=246,g=242,b=246]
+region 1 size= 5079 color=java.awt.Color[r=140,g=72,b=140]
+region 2 size= 4862 color=java.awt.Color[r=252,g=251,b=252]
+region 3 size= 159 color=java.awt.Color[r=245,g=240,b=245]
 - Saved result to image/3_seg_3.png
 
 > java ImgSeg -k 4 image/3.png
-region 1 size= 4829 color=java.awt.Color[r=253,g=252,b=253]
-region 2 size= 4100 color=java.awt.Color[r=142,g=57,b=142]
-region 3 size= 1015 color=java.awt.Color[r=136,g=135,b=136]
-region 4 size= 156 color=java.awt.Color[r=246,g=242,b=246]
+region 1 size= 4862 color=java.awt.Color[r=252,g=251,b=252]
+region 2 size= 4065 color=java.awt.Color[r=141,g=56,b=141]
+region 3 size= 1014 color=java.awt.Color[r=136,g=135,b=136]
+region 4 size= 159 color=java.awt.Color[r=245,g=240,b=245]
 - Saved result to image/3_seg_4.png
 ```
 ![input](https://github.com/jmlien/cs310-pa4/blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_4.png "output")
@@ -91,25 +91,25 @@ input|_K_=3|_K_=4
 
 ```
 > java ImgSeg -k 10 image/Leiadeathstar.jpg
-region 1 size= 8071 color=java.awt.Color[r=25,g=27,b=28]
-region 2 size= 7163 color=java.awt.Color[r=195,g=198,b=206]
-region 3 size= 6374 color=java.awt.Color[r=18,g=22,b=30]
-region 4 size= 6337 color=java.awt.Color[r=204,g=205,b=209]
-region 5 size= 5681 color=java.awt.Color[r=43,g=50,b=66]
-region 6 size= 5464 color=java.awt.Color[r=134,g=155,b=185]
-region 7 size= 5441 color=java.awt.Color[r=94,g=85,b=93]
-region 8 size= 3368 color=java.awt.Color[r=144,g=96,b=89]
-region 9 size= 3256 color=java.awt.Color[r=40,g=38,b=40]
-region 10 size= 2845 color=java.awt.Color[r=231,g=228,b=230]
+region 1 size= 12705 color=java.awt.Color[r=26,g=30,b=38]
+region 2 size= 12169 color=java.awt.Color[r=32,g=35,b=43]
+region 3 size= 7095 color=java.awt.Color[r=209,g=217,b=224]
+region 4 size= 5796 color=java.awt.Color[r=191,g=197,b=208]
+region 5 size= 5016 color=java.awt.Color[r=132,g=148,b=175]
+region 6 size= 3535 color=java.awt.Color[r=126,g=89,b=82]
+region 7 size= 3199 color=java.awt.Color[r=227,g=218,b=220]
+region 8 size= 1925 color=java.awt.Color[r=156,g=105,b=92]
+region 9 size= 1346 color=java.awt.Color[r=145,g=133,b=131]
+region 10 size= 1214 color=java.awt.Color[r=96,g=109,b=129]
 - Saved result to image/Leiadeathstar_seg_10.png
 
 > java ImgSeg -k 100 image/Leiadeathstar.jpg
-region 1 size= 3743 color=java.awt.Color[r=12,g=15,b=21]
-region 2 size= 3700 color=java.awt.Color[r=40,g=53,b=77]
-region 3 size= 2923 color=java.awt.Color[r=228,g=234,b=240]
-region 4 size= 2902 color=java.awt.Color[r=114,g=150,b=189]
+region 1 size= 4732 color=java.awt.Color[r=13,g=17,b=23]
+region 2 size= 3756 color=java.awt.Color[r=41,g=53,b=77]
+region 3 size= 2545 color=java.awt.Color[r=9,g=13,b=12]
+region 4 size= 2496 color=java.awt.Color[r=10,g=13,b=11]
 [snipped...]
-region 100 size= 23 color=java.awt.Color[r=139,g=142,b=143]
+region 100 size= 34 color=java.awt.Color[r=60,g=78,b=106]
 - Saved result to image/Leiadeathstar_seg_100.png
 ```
 
