@@ -13,7 +13,7 @@ public class DisjointSets<T>
     {
       //your code here
     }
-    
+
     //Must have O(1) time complexity
     public int union( int root1, int root2 )
     {
@@ -32,13 +32,13 @@ public class DisjointSets<T>
     {
       return null; //TODO: remove and replace this line
     }
-	
-	//return the number of disjoint sets remaining
+
+	  //return the number of disjoint sets remaining
     // must be O(1) time
-	public int getNumSets()
-	{
-		return -1; //TODO: remove and replace this line
-	}
+  	public int getNumSets()
+  	{
+  		return -1; //TODO: remove and replace this line
+  	}
 
     //Data
     private int [ ] s;
