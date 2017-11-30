@@ -56,13 +56,22 @@ public class Decomposor extends JPanel
       
       Set<Pixel> R1 = ds.get(root1);
       Set<Pixel> R2 = ds.get(root1);
-      Iterator<Pixel> itR1 = R1.iterator();
-      Iterator<Pixel> itR2 = R2.iterator();
       
-      for(itR1.hasNext())
+      // Iterate R1 and R2 and compute sum of similarity
+      for (Iterator<Pixel> itR1 = R1.iterator(); itR1.hasNext();) {
+    	  Pixel curPixel = itR1.next();
+    	  Color curColor = getColor(curPixel); 
+    	  sumSimilarity += getDifference(C, curColor);
+      }
       
+      for (Iterator<Pixel> itR2 = R2.iterator(); itR2.hasNext();) {
+    	  Pixel curPixel = itR2.next();
+    	  Color curColor = getColor(curPixel); 
+    	  sumSimilarity += getDifference(C, curColor);
+      }
       
-      return null; //TODO: remove and replace this line
+      return new Similarity(sumSimilarity, getPixel(root1), getPixel(root2)); //TODO: Check This!!! 
+      										//TODO Return a new Similarity where distance is the sum computed above, and the two pixels are the pixels of root1 and root2.
     }
 
     //
