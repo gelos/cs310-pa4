@@ -24,9 +24,36 @@ public class Decomposor extends JPanel
     // Given a disjoint set and a region (defined by its root id),
     // return a list of adjacent regions (again, represented by their root ids)
     //
-    private TreeSet<Integer> getNeightborSets(DisjointSets<Pixel> ds, int root)
+    private TreeSet<Integer> getNeighborSets(DisjointSets<Pixel> ds, int root)
     {
-      return null; //TODO: remove and replace this line
+      // create result TreeSet
+      TreeSet<Integer> result = new TreeSet<Integer>();
+            
+      // Get Set of Pixel in target region
+      Set<Pixel> targetSet = ds.get(root);
+      
+      // Iterate through targetSet to find all neighbors
+      for (Iterator<Pixel> itTS = targetSet.iterator(); itTS.hasNext();) {
+
+        // compute current Pixel and its ID
+        Pixel curPixel = itTS.next();
+        int curPixelID = getID(curPixel);
+        
+        // Get array of neighbors of current Pixel
+        ArrayList<Pixel> arrNeighbors = getNeighbors(curPixel);
+        
+        // Iterate thought all neighbors and add their ID to result
+        // Not add if neighbor root == root 
+        for (Pixel neighPixel : arrNeighbors) {
+          int neighID = getID(neighPixel);
+          int neighRoot = ds.find(neighID);
+          if (neighRoot != root) {
+            result.add(neighRoot);
+          }
+        }
+      }
+      
+      return result; 
     }
 
     //
@@ -268,7 +295,7 @@ public class Decomposor extends JPanel
     }
 
     //8-neighbors of a given pixel
-    private ArrayList<Pixel> getNeightbors(Pixel pixel)
+    private ArrayList<Pixel> getNeighbors(Pixel pixel)
     {
       ArrayList<Pixel> neighbors = new ArrayList<Pixel>();
 
