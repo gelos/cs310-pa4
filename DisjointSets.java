@@ -54,7 +54,7 @@ public class DisjointSets<T> {
       this.sets.get(root2).addAll(this.sets.get(root1));
       this.sets.get(root1).clear();
       this.setsCount--;
-      return root2
+      return root2;
     }
             
   }

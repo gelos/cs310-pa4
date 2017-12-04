@@ -17,67 +17,85 @@ import java.util.Iterator;
 
 //http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/ArrayList.java#ArrayList
 
-
 public class Set<T> extends AbstractCollection<T> {
 
-  // Consructor
-  
-  public Set() {
-    this.data = new int[10];
-    this.size = 0;
-  }
-  
-  // O(1)
-  public boolean add(T item) {
+	// Constructors
 
-    return data.add(item);
-  }
+	public Set(T element) {
+		this();
+		add(element);
+	}
+	
+	public Set() {
+		this.data = (T[]) new Object[10];
+		this.size = 0;
+	}
 
-  // O(1)
-  public boolean addAll(Set<T> other) {
-    return data.addAll(other);
-  }
+	// O(1)
+	public boolean add(T item) {
+		ensureCapacity(size + 1);
+		this.data[size++] = item;
+		return true;
+		// return data.add(item);
+	}
 
-  // O(1)
-  public void clear() {
-    data.clear();
-  }
+	// O(1)
+	public boolean addAll(Set<T> other) {
+		int otherSize = other.size();
+		Object[] array = other.toArray();
+		ensureCapacity(this.size + otherSize);
+		System.arraycopy(other, 0, this.data, this.size, otherSize);
+		this.size += otherSize;
+		return otherSize != 0;
+	}
 
-  // O(1)
-  public int size() {
-    return data.size();
-  }
+	// O(1)
+	public void clear() {
+		this.size = 0;
+	}
 
-  public Iterator<T> iterator() {
-    return new Iterator<T>() {
-      private Iterator<T> iter = data.iterator();
+	// O(1)
+	public int size() {
+		return this.size;
+	}
 
-      public T next() {
-        // return null;
-        return iter.next();
-      }
+	public Iterator<T> iterator() {
 
-      public boolean hasNext() {
-        // return false;
-        return iter.hasNext();
-      }
-    };
-  }
+		return new Iterator<T>() {
 
-  // Data
-  private T[] data;
-  private int size = 0;
+			int current = 0;
 
-  private void ensureCapacity(int minCapacity) {
-    modCount++;
-    int oldCapacity = elementData.length;
-    if (minCapacity > oldCapacity) {
-      Object oldData[] = elementData;
-      int newCapacity = (oldCapacity * 3) / 2 + 1;
-      if (newCapacity < minCapacity)
-        newCapacity = minCapacity;
-      // minCapacity is usually close to size, so this is a win:
-      elementData = Arrays.copyOf(elementData, newCapacity);
-    }
-  }
+			public T next() {
+				// return null;
+				if (hasNext()) {
+					return data[current++];
+				} else {
+					throw new RuntimeException("NoSuchElementException");
+				}
+			}
+
+			public boolean hasNext() {
+				return (current != size());
+			}
+		};
+	}
+
+	// Data
+	private T[] data;
+	private int size = 0;
+
+	private void ensureCapacity(int minCapacity) {
+		int oldCapacity = this.data.length;
+		if (minCapacity > oldCapacity) {
+			T oldData[] = data;
+			int newCapacity = (oldCapacity * 3) / 2 + 1;
+			if (newCapacity < minCapacity)
+				newCapacity = minCapacity;
+			// minCapacity is usually close to size, so this is a win:
+			// data = Arrays.copyOf(data, newCapacity);
+			// this.data = new T[newCapacity];
+			this.data = (T[]) new Object[newCapacity];
+			System.arraycopy(oldData, 0, this.data, 0, oldCapacity);
+		}
+	}
 }
