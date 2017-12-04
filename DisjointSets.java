@@ -6,42 +6,69 @@
 import java.util.ArrayList;
 
 // disjoint sets class, using union by size and path compression.
-public class DisjointSets<T>
-{
-    //Constructor
-    public DisjointSets( ArrayList<T> data  )
-    {
-      //your code here
-    }
+public class DisjointSets<T> {
+
+  // Constructor
+  public DisjointSets(ArrayList<T> data) {
+    // init sets storage
+    sets = new ArrayList<Set<T>>();
+
+    // init parent storage
+    p = new int[data.size()];
     
-    //Must have O(1) time complexity
-    public int union( int root1, int root2 )
-    {
-		return -1; //TODO: remove and replace this line
-    }
+    // init size storage
+    s = new int[data.size()];
 
-    //Must implement path compression
-    public int find( int x )
-    {
-      return -1; //TODO: remove and replace this line
-    }
+    for (int i = 0; i < data.size(); ++i) {
 
-    //Get all the data in the same set
-    //Must have O(1) time complexity
-    public Set<T> get( int root )
-    {
-      return null; //TODO: remove and replace this line
-      
-    }
-	
-	//return the number of disjoint sets remaining
-    // must be O(1) time
-	public int getNumSets()
-	{
-		return sets.size();
-	}
+      // fill sets storage
+      T element = data.get(i);
+      Set<T> newset = new Set<T>(element);
+      this.sets.add(newset);
 
-    //Data
-    private int [ ] s;
-    private ArrayList<Set<T>> sets;
+      // fill parent storage
+      s[i] = i;
+
+    }
+  }
+
+  // Release union by size algo 
+  //  Must have O(1) time complexity
+  
+  public int union(int root1, int root2) {
+    
+    
+    
+    return
+    
+  }
+
+  // Must implement path compression
+  public int find(int x) {
+    return -1; // TODO: remove and replace this line
+  }
+
+  // Get all the data in the same set
+  // Must have O(1) time complexity
+  public Set<T> get(int root) {
+    return null; // TODO: remove and replace this line
+
+  }
+
+  // return the number of disjoint sets remaining
+  // must be O(1) time
+  public int getNumSets() {
+    return sets.size();
+  }
+
+  // Data
+
+  // size storage
+  private int[] s;
+  
+  // sets storage
+  private ArrayList<Set<T>> sets;
+
+  // parents storage
+  private int[] p;
 }
