@@ -271,7 +271,7 @@ private Similarity getSimilarity(DisjointSets<Pixel> ds, int R1, int R2);
 ```
 
 ### Task 4: Implement the decomposor (50%)
-*(updated on Nov 27)*
+*(updated on Nov 27, and Dec 5th)*
 
 Implement the following method
 
@@ -300,7 +300,7 @@ public void segment(int K) //K is the number of desired segments
 		- **If ```getSimilarity``` of _p1_ and _p2_ returns a similarity different from _S_, ignore the pair** (again, due to an earlier union)
 		- Otherwise
 			- union the pair (we'll call this new region _R_)
-			- **If the similarity distance is 0** (updated Dec 5th)
+			- **If the similarity distance is NOT 0** (added Dec 5th)
 				- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
 				- add each new similarity to your priority queue
 
