@@ -9,6 +9,7 @@ public class ImgSeg
 {
     public static void main(String[] args)
     {
+    	/*
         if(args.length<2)
         {
             System.err.println("Usage: ImgSeg -k K [-g] image_file\n\tK: number of segments\n\timage_file: *.jpg, *.png, etc");
@@ -25,7 +26,12 @@ public class ImgSeg
           else if(args[i].toLowerCase().compareTo("-g")==0) show_img=true;
           else img_name=args[i];
         }
-
+*/
+    	int K = 2;
+    	boolean show_img=true;
+    	String img_name = "./image/2-1.png";
+    	System.out.println(ImgSeg.class.getClassLoader().getResource("").getPath());
+    	
         Decomposor seg = new Decomposor(img_name);
         seg.segment(K);
         seg.outputResults(K);

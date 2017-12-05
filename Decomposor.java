@@ -121,6 +121,11 @@ public class Decomposor extends JPanel {
   // - Iteratively merging two adjacent regions with most similar colors until the number of regions
   // is K.
   //
+  /**
+   * Iteratively merging two adjacent regions with most similar colors 
+   * until the number of regions is K.
+   * @param K is the number of desired segments
+   */
   public void segment(int K) //K is the number of desired segments
     {
       if(K<2)
@@ -165,22 +170,21 @@ public class Decomposor extends JPanel {
       while (ds.getNumSets() > K) {
         
         // get smallest Similarity
-        Similarity minSim = priorityQueue.root();
+        Similarity minSim = priorityQueue.remove();
         
         // get root ids for adjacent Pixels
         int root1 = getID(minSim.pixels.p);
         int root2 = getID(minSim.pixels.q);
 
         // check if its in same region remove from queue and ignore this pair
-        if (minSim.pixels.p == minSim.pixels.q) {
-          priorityQueue.remove();
+        if (root1 == root2) {
+          //priorityQueue.remove();
           continue;
         }
         
         // union two regions with minimal similarity
-        ds.union(minSim.pixels.p, minSim.pixels.q);
-                
-        
+        ds.union(root1, root2);
+               
       } 
                   
       //Todo: Your code here (remove this line)
@@ -193,9 +197,15 @@ public class Decomposor extends JPanel {
 
   // Task 5: Output results (10%)
   // Recolor all pixels with the average color and save output image
+  /**
+   * Recolor all pixels with the average color and save output image
+   * @param K is the number of disered segments 
+   */
   public void outputResults(int K) {
     // collect all sets
     int region_counter = 1;
+
+    // create and fill list to store region parameters pairs <size, root id> 
     ArrayList<Pair<Integer>> sorted_regions = new ArrayList<Pair<Integer>>();
 
     int width = this.image.getWidth();
@@ -203,14 +213,15 @@ public class Decomposor extends JPanel {
     for (int h = 0; h < height; h++) {
       for (int w = 0; w < width; w++) {
         int id = getID(new Pixel(w, h));
-        int setid = ds.find(id);
-        if (id != setid)
+        int parentID = ds.find(id);
+        if (id != parentID) {
           continue;
-        sorted_regions.add(new Pair<Integer>(ds.get(setid).size(), setid));
+        }
+        sorted_regions.add(new Pair<Integer>(ds.get(parentID).size(), parentID));
       } // end for w
     } // end for h
 
-    // sort the regions
+    // sort the regions first by size if size equal sort by rootid
     Collections.sort(sorted_regions, new Comparator<Pair<Integer>>() {
       @Override
       public int compare(Pair<Integer> a, Pair<Integer> b) {
@@ -226,13 +237,28 @@ public class Decomposor extends JPanel {
     // TODO: Your code here (remove this line)
     // Hint: Use image.setRGB(x,y,c.getRGB()) to change the color of a pixel (x,y) to the given
     // color "c"
-    for (int h = 0; h < height; h++) {
-      for (int w = 0; w < width; w++) {
-        Color c = new Color(255, 255, 255);
-        this.image.setRGB(w, h, c.getRGB());
-      }
-    }
+    for (Iterator<Pair<Integer>> it = sorted_regions.iterator(); it.hasNext();) {
+    	
+    	// get current region size, average color and root ID
+    	Pair<Integer> curPair = it.next();
+    	int curRoot = curPair.q;
+    	int curSize = curPair.p;
+    	Set<Pixel> curRegion = ds.get(curRoot);
+    	Color avgColor = computeAverageColor(curRegion);
+    	
+    	// output region information
+    	System.out.println("region " + region_counter + " size = " + curSize + 
+    			" color = " + avgColor.toString());
+    	region_counter++;
 
+    	// recolor image in current region
+    	for (Iterator<Pixel> itR = curRegion.iterator(); itR.hasNext();) {
+    		Pixel curPixel = itR.next();
+    		this.image.setRGB(curPixel.p, curPixel.q, avgColor.getRGB());
+    	}
+    	    	
+    }
+    
     // save output image
     String out_filename = img_filename + "_seg_" + K + ".png";
     try {

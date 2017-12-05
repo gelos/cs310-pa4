@@ -33,17 +33,17 @@ public class Set<T> extends AbstractCollection<T> {
 
 	// O(1)
 	public boolean add(T item) {
-		ensureCapacity(size + 1);
-		this.data[size++] = item;
+		ensureCapacity(this.size + 1);
+		this.data[this.size++] = item;
 		return true;
 	}
 
 	// O(1)
 	public boolean addAll(Set<T> other) {
 		int otherSize = other.size();
-		Object[] array = other.toArray();
-		ensureCapacity(this.size + otherSize);
-		System.arraycopy(other, 0, this.data, this.size, otherSize);
+		Object array = (T[]) other.toArray();
+		ensureCapacity(this.size() + otherSize);
+		System.arraycopy(array, 0, this.data, this.size(), otherSize);
 		this.size += otherSize;
 		return otherSize != 0;
 	}
