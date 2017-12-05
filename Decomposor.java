@@ -15,19 +15,24 @@ import javax.swing.JPanel;
 
 public class Decomposor extends JPanel {
   //
-  // Task 2: Get a set of neighboring regions (10%)
-  //
-  // Given a disjoint set and a region (defined by its root id),
-  // return a list of adjacent regions (again, represented by their root ids)
-  //
+  // TODO: remove Task 2: Get a set of neighboring regions (10%)
+  /**
+   * Given a disjoint set and a region (defined by its root id),
+   * return a list of adjacent regions (again, represented by their root ids)
+   * 
+   * @param ds the disjoint set
+   * @param root the id of region to find neighbors
+   * @return list of adjacent regions (represented by their root ids)
+   */
   private TreeSet<Integer> getNeighborSets(DisjointSets<Pixel> ds, int root) {
+    
     // create the returned data structure
     TreeSet<Integer> result = new TreeSet<Integer>();
 
-    // Get Set of Pixel in target region
+    // get target set by its root
     Set<Pixel> targetSet = ds.get(root);
 
-    // Iterate through targetSet to find all neighbors
+    // iterate through targetSet to find all neighbors
     for (Iterator<Pixel> itTS = targetSet.iterator(); itTS.hasNext();) {
 
       // compute current Pixel and its ID
@@ -52,8 +57,19 @@ public class Decomposor extends JPanel {
   }
 
   //
-  // Task 3: Compute region to region similarity (10%)
-  //
+  // TODO remove Task 3: Compute region to region similarity (10%)
+  /**
+   * Compute the similarity between two given regions R1 and R2.
+   * Compute the average color, C, of the union of these two regions and compute 
+   * the sum of the color differences between C and all pixels in R1 and R2.
+   * 
+   * @param ds the set of Pixel
+   * @param root1 the Pixel of root id first region R1
+   * @param root2 the Pixel of root id second region R2
+   * @return Similarity class
+   * @see Decomposor.Similarity
+   * @see Decomposor.Pixel
+   */
   // Given two regions R1 and R2, compute the similarity between these two regions
   // You will need to compute the average color, C, of the union of these two regions
   // And compute the sum of the color differences between C and all pixels in R1 and R2
@@ -92,6 +108,7 @@ public class Decomposor extends JPanel {
     }
 
     return new Similarity(sumSimilarity, getPixel(root1), getPixel(root2)); // TODO: Check This!!!
+    //return new Similarity(sumSimilarity, root1, root2); // TODO: Check This!!!
     // TODO Return a new Similarity where distance is the sum computed above, and the two pixels are
     // the pixels of root1 and root2.
   }
@@ -114,7 +131,7 @@ public class Decomposor extends JPanel {
       int width = this.image.getWidth();
       int height = this.image.getHeight();
 
-      // Init and fill disjoint set with image Pixels
+      // init and fill disjoint set with image Pixels
       ArrayList<Pixel> data = new ArrayList<Pixel>(); 
       for (int h = 0; h < height; h++) {
         for (int w = 0; w < width; w++) {
@@ -125,14 +142,17 @@ public class Decomposor extends JPanel {
       
       // create and fill priority queue
       PriorityQueue<Similarity> priorityQueue = new PriorityQueue<Similarity>();
+      
       // iterate all pixels in data to get all pars of adjacent pixels
       for (Pixel pixel : data) {
-        TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, ds.find(getID(pixel)));
-        
+      
         // get root of current pixel
         int pixelRoot = ds.find(getID(pixel));
         
-        // iterate each neighbor
+        // get ordered set of neighbors of region of the pixel
+        TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, pixelRoot);
+                    
+        // iterate thought neighbors
         for (Integer neighborRoot : neighborsRoot) {
           
           // fill similarity with root values
@@ -146,14 +166,20 @@ public class Decomposor extends JPanel {
         
         // get smallest Similarity
         Similarity minSim = priorityQueue.root();
+        
+        // get root ids for adjacent Pixels
+        int root1 = getID(minSim.pixels.p);
+        int root2 = getID(minSim.pixels.q);
 
-        // check if its same region remove from queue and ignore this pair
+        // check if its in same region remove from queue and ignore this pair
         if (minSim.pixels.p == minSim.pixels.q) {
           priorityQueue.remove();
           continue;
         }
         
-        
+        // union two regions with minimal similarity
+        ds.union(minSim.pixels.p, minSim.pixels.q);
+                
         
       } 
                   
@@ -233,9 +259,10 @@ public class Decomposor extends JPanel {
   private String img_filename; // input image filename without .jpg or .png
   private DisjointSets<Pixel> ds; // the disjoint set
 
-  //
-  // constructor, read image from file
-  //
+  /**
+   * Constructor, read image from the file
+   * @param imgfile the path to the file
+   */
   public Decomposor(String imgfile) {
     File imageFile = new File(imgfile);
     try {
@@ -249,8 +276,12 @@ public class Decomposor extends JPanel {
 
 
   //
-  // 3 private classes below
+  // Private classes below
   //
+  
+  /**
+   * Base class to store a couple of objects
+   */
   private class Pair<T> {
     public Pair(T p_, T q_) {
       this.p = p_;
@@ -260,14 +291,19 @@ public class Decomposor extends JPanel {
     T p, q;
   }
 
-  // a pixel is a 2D coordinate (w,h) in an image
+  /**
+   * Class to store 2D coordinate (w,h) in an image
+   */
   private class Pixel extends Pair<Integer> {
     public Pixel(int w, int h) {
       super(w, h);
     }
-  } // aliasing Pixel
+  } 
 
-  // this class represents the similarity between the colors of two adjacent pixels or regions
+   /**
+   * This class represents the similarity between the colors of two adjacent pixels or regions
+   *
+   */
   private class Similarity implements Comparable<Similarity> {
     public Similarity(int d, Pixel p, Pixel q) {
       this.distance = d;
@@ -278,7 +314,7 @@ public class Decomposor extends JPanel {
       return this.distance - other.distance;
     }
 
-    // a pair of ajacent pixels or regions (represented by the "root" pixels)
+    // a pair of adjacent pixels or regions (represented by the "root" pixels)
     public Pair<Pixel> pixels;
 
     // distance between the color of two pixels or two regions,
@@ -287,15 +323,25 @@ public class Decomposor extends JPanel {
   }
 
   //
-  // helper functions
+  // Helper functions
   //
 
-  // convert a pixel to an ID
+  /**
+   * Convert a Pixel to an ID
+   * @param pixel the Pixel object
+   * @return pixel id
+   */
   private int getID(Pixel pixel) {
     return this.image.getWidth() * pixel.q + pixel.p;
   }
 
   // convert ID back to pixel
+  /**
+   * Convert ID back to pixel
+   * @param id the Pixel ID
+   * @return Pixel object
+   * @see Pixel
+   */
   private Pixel getPixel(int id) {
     int h = id / this.image.getWidth();
     int w = id - this.image.getWidth() * h;
@@ -305,12 +351,23 @@ public class Decomposor extends JPanel {
 
     return new Pixel(w, h);
   }
-
+  
+  /**
+   * Return color for given pixel
+   * @param p the Pixel object
+   * @return Color object
+   * @see Pixel 
+   * @see Color
+   */
   private Color getColor(Pixel p) {
     return new Color(image.getRGB(p.p, p.q));
   }
 
-  // compute the average color pf a collection of pixels
+  /**
+   * Compute the average color of a collection of pixels
+   * @param pixels the pixels collection 
+   * @return average color
+   */
   private Color computeAverageColor(AbstractCollection<Pixel> pixels) {
     int r = 0, g = 0, b = 0;
     for (Pixel p : pixels) {
@@ -322,6 +379,13 @@ public class Decomposor extends JPanel {
     return new Color(r / pixels.size(), g / pixels.size(), b / pixels.size());
   }
 
+  /**
+   * Compute difference between two given colors.
+   * Difference compute as scalar multiplication of vector of color differences  
+   * @param c1 the color1
+   * @param c2 the color2
+   * @return color difference
+   */
   private int getDifference(Color c1, Color c2) {
     int r = (int) (c1.getRed() - c2.getRed());
     int g = (int) (c1.getGreen() - c2.getGreen());
@@ -330,7 +394,11 @@ public class Decomposor extends JPanel {
     return r * r + g * g + b * b;
   }
 
-  // 8-neighbors of a given pixel
+  /**
+   * Return array of 8-neighbors of a given pixel
+   * @param pixel the Pixel object
+   * @return arraylist of neighbors as Pixel objects
+   */
   private ArrayList<Pixel> getNeighbors(Pixel pixel) {
     ArrayList<Pixel> neighbors = new ArrayList<Pixel>();
 

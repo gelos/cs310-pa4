@@ -36,7 +36,6 @@ public class Set<T> extends AbstractCollection<T> {
 		ensureCapacity(size + 1);
 		this.data[size++] = item;
 		return true;
-		// return data.add(item);
 	}
 
 	// O(1)
@@ -52,6 +51,7 @@ public class Set<T> extends AbstractCollection<T> {
 	// O(1)
 	public void clear() {
 		this.size = 0;
+		this.data = null;
 	}
 
 	// O(1)
@@ -87,10 +87,11 @@ public class Set<T> extends AbstractCollection<T> {
 	private void ensureCapacity(int minCapacity) {
 		int oldCapacity = this.data.length;
 		if (minCapacity > oldCapacity) {
-			T oldData[] = data;
+			T[] oldData = data;
 			int newCapacity = (oldCapacity * 3) / 2 + 1;
-			if (newCapacity < minCapacity)
+			if (newCapacity < minCapacity) {
 				newCapacity = minCapacity;
+			}
 			// minCapacity is usually close to size, so this is a win:
 			// data = Arrays.copyOf(data, newCapacity);
 			// this.data = new T[newCapacity];

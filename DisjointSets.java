@@ -5,16 +5,20 @@
 
 import java.util.ArrayList;
 
-// disjoint sets class, using union by size and path compression.
+/**
+ * Disjoint sets class, using union by size and path compression.
+ */
 public class DisjointSets<T> {
 
-  // Constructor
+  /**
+   * Constructor, init internal data structures.
+   * Fill disjointset with given data, use one data element as one set.
+   * @param data the arraylist of data 
+   */
   public DisjointSets(ArrayList<T> data) {
+
     // init sets storage
     sets = new ArrayList<Set<T>>();
-
-    // init parent storage
-    //p = new int[data.size()];
     
     // init parent storage
     s = new int[data.size()];
@@ -33,9 +37,13 @@ public class DisjointSets<T> {
     this.setsCount = data.size();
   }
 
-  // Release union by size algo 
-  //  Must have O(1) time complexity
-  
+  /**
+   * Union two sets given by their root ids
+   * Use union by size, small set add to big
+   * @param root1 the first set root id
+   * @param root2 the second set root id
+   * @return root id of union set
+   */
   public int union(int root1, int root2) {
     
     if (root1 == root2) {
@@ -59,9 +67,15 @@ public class DisjointSets<T> {
             
   }
 
-  // Must implement path compression
+  /** 
+   * Return root id of x set.
+   * Implement path compression
+   *      
+   * @param x the element
+   * @return root id of the x set
+   */
   public int find(int x) {
-    //return -1; // TODO: remove and replace this line
+    
     if (s[x] == x) {
       return x;
     } else {
@@ -70,26 +84,33 @@ public class DisjointSets<T> {
     return s[x];
   }
 
-  // Get all the data in the same set
-  // Must have O(1) time complexity
+  /**
+   * Get all the data in set for given root id
+   * @param root the root id
+   * @return set of data for given root id
+   */
   public Set<T> get(int root) {
     return this.sets.get(root);
   }
 
-  // return the number of disjoint sets remaining
-  // must be O(1) time
+  /**
+   * Return the number of disjoint sets remaining
+   * @return number of disjoint sest remaining
+   */
   public int getNumSets() {
-    //return sets.size();
     return setsCount;
   }
 
+  //
   // Data
-
+  //
+  
   // sets count
   private int setsCount;
   
   // parent storage
   private int[] s;
+  
   // sets storage
   private ArrayList<Set<T>> sets;
 }
