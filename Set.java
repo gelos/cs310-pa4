@@ -15,88 +15,140 @@ import java.util.Iterator;
 // but should it be array list or linked list??
 //
 
-//http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/ArrayList.java#ArrayList
+// http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/ArrayList.java#ArrayList
 
+/**
+ * The Class Set.
+ *
+ * @param <T> the generic type
+ */
 public class Set<T> extends AbstractCollection<T> {
 
-	// Constructors
+  //
+  // Constructors
+  //
 
-	public Set(T element) {
-		this();
-		add(element);
-	}
-	
-	public Set() {
-		this.data = (T[]) new Object[10];
-		this.size = 0;
-	}
+  /**
+   * Instantiates a new sets with element.
+   *
+   * @param element the element
+   */
+  public Set(T element) {
+    this();
+    add(element);
+  }
 
-	// O(1)
-	public boolean add(T item) {
-		ensureCapacity(this.size + 1);
-		this.data[this.size++] = item;
-		return true;
-	}
+  /**
+   * Instantiates a new empty sets.
+   */
+  public Set() {
+    internalStorage = (T[]) new Object[10];
+    size = 0;
+  }
 
-	// O(1)
-	public boolean addAll(Set<T> other) {
-		int otherSize = other.size();
-		Object array = (T[]) other.toArray();
-		ensureCapacity(this.size() + otherSize);
-		System.arraycopy(array, 0, this.data, this.size(), otherSize);
-		this.size += otherSize;
-		return otherSize != 0;
-	}
+  /**
+   * Add item.
+   *
+   * @param item the item
+   * @return true, if successful
+   * @see java.util.AbstractCollection#add(java.lang.Object)
+   */
+  public boolean add(T item) {
+    ensureCapacity(size + 1);
+    internalStorage[size++] = item;
+    return true;
+  }
 
-	// O(1)
-	public void clear() {
-		this.size = 0;
-		this.data = null;
-	}
+  /**
+   * Adds set of T.
+   *
+   * @param other the set of elements T
+   * @return true, if successful
+   */
+  public boolean addAll(Set<T> other) {
+    int otherSize = other.size();
+    Object otherArray = (T[]) other.toArray();
+    ensureCapacity(size() + otherSize);
+    System.arraycopy(otherArray, 0, internalStorage, size, otherSize);
+    size += otherSize;
+    return otherSize != 0;
+  }
 
-	// O(1)
-	public int size() {
-		return this.size;
-	}
+  /**
+   * Clear set.
+   *
+   * @see java.util.AbstractCollection#clear()
+   */
+  public void clear() {
+    for (int i = 0; i < size; i++) {
+      internalStorage[i] = null;
+    }
+    size = 0;
+  }
 
-	public Iterator<T> iterator() {
+  /**
+   * Return size of set.
+   *
+   * @return the int size of set
+   * @see java.util.AbstractCollection#size()
+   */
+  public int size() {
+    return size;
+  }
 
-		return new Iterator<T>() {
+  /**
+   * Return Iterator object.
+   *
+   * @return the iterator
+   * @see java.util.AbstractCollection#iterator()
+   */
+  public Iterator<T> iterator() {
 
-			int current = 0;
+    return new Iterator<T>() {
 
-			public T next() {
-				// return null;
-				if (hasNext()) {
-					return data[current++];
-				} else {
-					throw new RuntimeException("NoSuchElementException");
-				}
-			}
+      /** Current position */
+      int current = 0;
 
-			public boolean hasNext() {
-				return (current != size());
-			}
-		};
-	}
+      /** Return next element */
+      public T next() {
+        if (hasNext()) {
+          return internalStorage[current++];
+        } else {
+          throw new RuntimeException("NoSuchElementException");
+        }
+      }
 
-	// Data
-	private T[] data;
-	private int size = 0;
+      /** Check if next element exists */
+      public boolean hasNext() {
+        return (current != size());
+      }
+    };
+  }
 
-	private void ensureCapacity(int minCapacity) {
-		int oldCapacity = this.data.length;
-		if (minCapacity > oldCapacity) {
-			T[] oldData = data;
-			int newCapacity = (oldCapacity * 3) / 2 + 1;
-			if (newCapacity < minCapacity) {
-				newCapacity = minCapacity;
-			}
-			// minCapacity is usually close to size, so this is a win:
-			// data = Arrays.copyOf(data, newCapacity);
-			// this.data = new T[newCapacity];
-			this.data = (T[]) new Object[newCapacity];
-			System.arraycopy(oldData, 0, this.data, 0, oldCapacity);
-		}
-	}
+  /** The data. */
+  private T[] internalStorage;
+
+  /** The size. */
+  private int size = 0;
+
+  /**
+   * Ensure capacity of at least minCapacity. 
+   * If required internal storage size grows by approximate
+   * 50%.
+   *
+   * @param minCapacity the minimal capacity
+   */
+  private void ensureCapacity(int minCapacity) {
+    int oldSize = internalStorage.length;
+    if (minCapacity > oldSize) {
+      T[] oldStorage = internalStorage;
+      int newSize = (oldSize * 3) / 2 + 1;
+      if (newSize < minCapacity) {
+        newSize = minCapacity;
+      }
+      // minCapacity is usually close to size, so this is a win:
+      internalStorage = (T[]) new Object[newSize];
+      System.arraycopy(oldStorage, 0, internalStorage, 0, oldSize);
+    }
+  }
 }
