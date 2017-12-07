@@ -293,7 +293,7 @@ public void segment(int K) //K is the number of desired segments
   - If the regions represented by _p1_ and _p2_ are _not_ disjoint, ignore the pair
   - Otherwise
   	1. If _p1_ **or** _p2_ is no longer roots of their own regions (this may have happened due to an earlier union):
-		- if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of both pairs back into the queue (there may be higher priority things than the union of the two roots).
+		- if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of _p1_ and _p2_ back into the queue (there may be higher priority things than the union of the two roots).
 		- if the similarity distance is 0 (in otherwords, the two regions were identical)
 	  		- union the roots (as you can't be any more similar than a distance of 0).
 	2. If _p1_ and _p2_ are both roots of their own regions:
