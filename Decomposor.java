@@ -376,22 +376,23 @@ public class Decomposor extends JPanel {
   /**
    * Base class to store a couple of objects
    */
-  private class Pair<T> {
+  private static class Pair<T> {
     public Pair(T p_, T q_) {
       this.p = p_;
       this.q = q_;
     }
 
-    T p, q;
+    T p, q;    
   }
 
   /**
    * Class to store 2D coordinate (w,h) in an image
    */
-  private class Pixel extends Pair<Integer> {
+  public static class Pixel extends Pair<Integer> {
     public Pixel(int w, int h) {
       super(w, h);
     }
+    
   }
 
   /**
