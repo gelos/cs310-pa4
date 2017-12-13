@@ -1,11 +1,15 @@
 # A Tiny Image Segmentation 
 
+![](output/bird_seg_5.png "")|![](output/bird_seg_10.png "")|![](output/bird_seg_100.png "")|![](output/bird_seg_1000.png "")
+:---: | :---: |:---: | :---: 
+
+
 - CS 310 Programming Assignment 4 Due: **Dec 10th** (Sunday) 11:59pm, 2017
 
 ## Assignment Objective
 - Write a program to segment an image into _K_>1 regions, where _K_ is a user parameter.
 - Learn to use _priority queue_ (binary heap) and _disjoint sets_ (union-find data structure)
-- Image segmentation is one of the most fundamental operation in computer vision and image processing and has many many applications; [Learn more about image segmentation from Wikipedia](https://en.wikipedia.org/wiki/Image_segmentation)
+- Image segmentation is one of the most fundamental operations in computer vision and image processing and has many many applications; [Learn more about image segmentation from Wikipedia](https://en.wikipedia.org/wiki/Image_segmentation)
 
 ## Table of Contents
 1. [Input/Output](#input-output)
@@ -23,7 +27,7 @@
 - A single bitmap RGB image in jpg or png formats. 
 - A positive integer _K_ > 1, i.e., the number of final regions
 
-### Output
+### Output 
 
 Your program should output: (1) region information and (2) re-colored image. 
 
@@ -35,13 +39,27 @@ Your program should output: (1) region information and (2) re-colored image.
 - See [example output](#examples) below; your program must reproduce the same output.
 
 ## Examples
+*(updated on Nov 28th and 29th)*
 
 1. Segment into two regions
 
+
+```
+> java ImgSeg -k 2 image/tiny.png
+region 1 size= 50 color=java.awt.Color[r=246,g=141,b=145]
+region 2 size= 50 color=java.awt.Color[r=17,g=88,b=38]
+- Saved result to image/tiny_seg_2.png
+```
+
+<img src="https://github.com/jmlien/cs310-pa4/blob/master/image/tiny.png" width="100" />|<img src="https://github.com/jmlien/cs310-pa4/blob/master/output/tiny_seg_2.png" width="100"  />
+:---: | :---: 
+input|output
+
+
 ```
 > java ImgSeg -k 2 image/2-1.png
-region 1 size= 8313 color=java.awt.Color[r=250,g=250,b=252]
-region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
+region 1 size= 8168 color=java.awt.Color[r=252,g=252,b=253]
+region 2 size= 3232 color=java.awt.Color[r=64,g=88,b=146]
 - Saved result to image/2-1_seg_2.png
 ```
 
@@ -49,47 +67,49 @@ region 2 size= 3087 color=java.awt.Color[r=61,g=86,b=144]
 :---: | :---: 
 input|output
 
-2. Segment into 3 regions
+2. Segment into 3 or 4 regions
 
 ```
-> java ImgSeg -k 2 image/3.png
-region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
-region 2 size= 5247 color=java.awt.Color[r=143,g=77,b=143]
-- Saved result to image/3_seg_2.png
-
 > java ImgSeg -k 3 image/3.png
-region 1 size= 4853 color=java.awt.Color[r=252,g=251,b=252]
-region 2 size= 4236 color=java.awt.Color[r=145,g=63,b=145]
-region 3 size= 1011 color=java.awt.Color[r=136,g=136,b=136]
+region 1 size= 5079 color=java.awt.Color[r=140,g=72,b=140]
+region 2 size= 4862 color=java.awt.Color[r=252,g=251,b=252]
+region 3 size= 159 color=java.awt.Color[r=245,g=240,b=245]
 - Saved result to image/3_seg_3.png
+
+> java ImgSeg -k 4 image/3.png
+region 1 size= 4862 color=java.awt.Color[r=252,g=251,b=252]
+region 2 size= 4065 color=java.awt.Color[r=141,g=56,b=141]
+region 3 size= 1014 color=java.awt.Color[r=136,g=135,b=136]
+region 4 size= 159 color=java.awt.Color[r=245,g=240,b=245]
+- Saved result to image/3_seg_4.png
 ```
-![input](https://github.com/jmlien/cs310-pa4/blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_2.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")
+![input](https://github.com/jmlien/cs310-pa4/blob/master/image/3.png "input")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_3.png "output")|![output](https://github.com/jmlien/cs310-pa4/blob/master/output/3_seg_4.png "output")
 :---: | :---: | :---:
-input|_K_=2|_K_=3
+input|_K_=3|_K_=4
 
 3. Segment into K>3 regions
 
 ```
 > java ImgSeg -k 10 image/Leiadeathstar.jpg
-region 1 size= 13761 color=java.awt.Color[r=34,g=37,b=44]
-region 2 size= 7883 color=java.awt.Color[r=158,g=171,b=191]
-region 3 size= 7807 color=java.awt.Color[r=35,g=37,b=45]
-region 4 size= 7593 color=java.awt.Color[r=191,g=189,b=194]
-region 5 size= 7580 color=java.awt.Color[r=186,g=188,b=196]
-region 6 size= 4717 color=java.awt.Color[r=54,g=58,b=69]
-region 7 size= 1936 color=java.awt.Color[r=123,g=85,b=79]
-region 8 size= 1064 color=java.awt.Color[r=160,g=105,b=92]
-region 9 size= 963 color=java.awt.Color[r=141,g=130,b=128]
-region 10 size= 696 color=java.awt.Color[r=168,g=109,b=99]
+region 1 size= 12705 color=java.awt.Color[r=26,g=30,b=38]
+region 2 size= 12169 color=java.awt.Color[r=32,g=35,b=43]
+region 3 size= 7095 color=java.awt.Color[r=209,g=217,b=224]
+region 4 size= 5796 color=java.awt.Color[r=191,g=197,b=208]
+region 5 size= 5016 color=java.awt.Color[r=132,g=148,b=175]
+region 6 size= 3535 color=java.awt.Color[r=126,g=89,b=82]
+region 7 size= 3199 color=java.awt.Color[r=227,g=218,b=220]
+region 8 size= 1925 color=java.awt.Color[r=156,g=105,b=92]
+region 9 size= 1346 color=java.awt.Color[r=145,g=133,b=131]
+region 10 size= 1214 color=java.awt.Color[r=96,g=109,b=129]
 - Saved result to image/Leiadeathstar_seg_10.png
 
 > java ImgSeg -k 100 image/Leiadeathstar.jpg
-region 1 size= 4346 color=java.awt.Color[r=16,g=20,b=29]
-region 2 size= 3685 color=java.awt.Color[r=40,g=52,b=76]
-region 3 size= 3588 color=java.awt.Color[r=114,g=147,b=186]
-region 4 size= 2902 color=java.awt.Color[r=191,g=197,b=209]
+region 1 size= 4732 color=java.awt.Color[r=13,g=17,b=23]
+region 2 size= 3756 color=java.awt.Color[r=41,g=53,b=77]
+region 3 size= 2545 color=java.awt.Color[r=9,g=13,b=12]
+region 4 size= 2496 color=java.awt.Color[r=10,g=13,b=11]
 [snipped...]
-region 100 size= 5 color=java.awt.Color[r=183,g=140,b=140]
+region 100 size= 34 color=java.awt.Color[r=60,g=78,b=106]
 - Saved result to image/Leiadeathstar_seg_100.png
 ```
 
@@ -223,7 +243,7 @@ _Hints_: Use TreeSet<T> and the following private method.
 private ArrayList<Pixel> getNeightbors(Pixel pixel)
 ```
 
-#### Task 3: Compute region to region similarity (10%) 
+### Task 3: Compute region to region similarity (10%) 
 *(updated on Nov 27)*
 
 Given two regions _R1_ and _R2_, implement a function to compute the similarity between these two regions.
@@ -251,7 +271,7 @@ private Similarity getSimilarity(DisjointSets<Pixel> ds, int R1, int R2);
 ```
 
 ### Task 4: Implement the decomposor (50%)
-*(updated on Nov 27)*
+*(updated on Nov 27, and Dec 5th)*
 
 Implement the following method
 
@@ -269,19 +289,20 @@ public void segment(int K) //K is the number of desired segments
 1. Create ```DisjointSets<Pixel>``` and populate it with all pixels
 2. Create ```PriorityQueue<Similarity>```, which should contain all possible pairs of neighboring pixels and their similarity values. Use your ```getSimilarity``` (from task 3) to compute the similarity. 
 3. Loop until the number of regions equals _K_; in each iteration,
-  - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions represented by two pixels (_p1_, _p2_)
-  - If _p1_ and _p2_ are _not_ disjoint, ignore the pair
+  - You must use ```PriotityQueue<Similarity>``` to find a pair of most similar regions **represented by two pixels (_p1_, _p2_) with similarity _S_**
+  - If the regions represented by _p1_ and _p2_ are _not_ disjoint, ignore the pair
   - Otherwise
-    1. If _p1_ and _p2_ are no longer roots of their own sets (this may have happened due to an earlier union):
-	  - if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of both pairs back into the queue (there may be higher priority things than the union of the two roots).
-	  - if the similarity distance is 0 (in otherwords, the two regions were identical)
-	  	- union the roots (as you can't be any more similar than a distance of 0).
-	2. If the pixels are both roots of their own sets:
-	- **If ```getSimilarity``` of _p1_ and _p2_ returns a different similarity, ignore the pair** (again, due to an earlier union)
-	- Otherwise
-		- union the pair (we'll call this new region _R_)
-		- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
-		- add each new similarity to your priority queue
+  	1. If _p1_ **or** _p2_ is no longer roots of their own regions (this may have happened due to an earlier union):
+		- if the similarity distance is greater than 0 (in other words, the two pixel regions were not identical), add the roots of _p1_ and _p2_ back into the queue (there may be higher priority things than the union of the two roots).
+		- if the similarity distance is 0 (in otherwords, the two regions were identical)
+	  		- union the roots (as you can't be any more similar than a distance of 0).
+	2. If _p1_ and _p2_ are both roots of their own regions:
+		- **If ```getSimilarity``` of _p1_ and _p2_ returns a similarity different from _S_, ignore the pair** (again, due to an earlier union)
+		- Otherwise
+			- union the pair (we'll call this new region _R_)
+			- **If the similarity distance is NOT 0** (added on Dec 5th)
+				- measure ```Similarity``` between all pairs of _R_ and _R_'s neighboring regions using ```getNeightborSets``` and ```getSimilarity```
+				- add each new similarity to your priority queue
 
 
 ### Task 5: Output (10%)
