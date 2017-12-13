@@ -5,11 +5,15 @@ import java.util.Random;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
+
+@RunWith(JUnitPlatform.class)
 
 class SetTest<Pixel> {
 
   private Set<Pixel> setTest;
+  private Set<Pixel> classToTesting;
   
   @BeforeEach
   void setUp() throws Exception {
