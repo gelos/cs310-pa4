@@ -27,11 +27,12 @@ public class ImgSeg
           else img_name=args[i];
         }
 */
-    	int K = 5;
+    	int K = 2;
     	boolean show_img=true;
     	//String img_name = "./image/2-1.png";
     	//String img_name = "./image/eclipse.jpg";
-    	String img_name = "./image/Mona-Lisa.jpg";
+    	//String img_name = "./image/Mona-Lisa.jpg";
+    	String img_name = "image/tiny.png";
     	//System.out.println(ImgSeg.class.getClassLoader().getResource("").getPath());
     	
         Decomposor seg = new Decomposor(img_name);

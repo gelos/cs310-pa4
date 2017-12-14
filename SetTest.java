@@ -98,9 +98,4 @@ class SetTest<Pixel> {
     
   }
 
-  @Test
-  void testIterator() {
-    fail("Not yet implemented");
-  }
-
 }

@@ -77,8 +77,8 @@ public class Decomposor extends JPanel {
     Color C1 = computeAverageColor(R1);
     Color C2 = computeAverageColor(R2);
 
-    //System.out.println("C1 " + C1 + " C2 " + C2);
-    
+    // System.out.println("C1 " + C1 + " C2 " + C2);
+
     // Compute size
     int sizeR1 = R1.size();
     int sizeR2 = R2.size();
@@ -108,7 +108,7 @@ public class Decomposor extends JPanel {
 
     return new Similarity(sumSimilarity, getPixel(root1), getPixel(root2));
     // TODO: Check This!!!
-    // return new Similarity(sumSimilarity/sizeSumR1R2, getPixel(root1), getPixel(root2));
+    //return new Similarity(sumSimilarity / sizeSumR1R2, getPixel(root1), getPixel(root2));
   }
 
   /**
@@ -161,17 +161,20 @@ public class Decomposor extends JPanel {
       }
     }
 
-    System.out.println("priorityQueue.size " + priorityQueue.size());
+    //System.out.println("priorityQueue.size " + priorityQueue.size());
 
     // loop while number of regions not reduced to K
-    while (ds.getNumSets() > K) {
+    //while (ds.getNumSets() >= K) {
+    for(;;) {
 
       // Get smallest Similarity
       Similarity minSim = priorityQueue.remove();
-
+      
+      System.out.println("Disjoint set size " + ds.getNumSets() + " priorityQueue.size " + priorityQueue.size());
+      
       // Get color distance
       int colDistance = minSim.distance;
-
+      
       // Get root IDs for adjacent Pixels
       int pixelID1 = getID(minSim.pixels.p);
       int pixelID2 = getID(minSim.pixels.q);
@@ -180,9 +183,13 @@ public class Decomposor extends JPanel {
       // int root1 = getID(minSim.pixels.p);
       // int root2 = getID(minSim.pixels.q);
 
-      /*if (colDistance != 0) {
-        System.out.println("distance " + colDistance + " root1 " + root1 + " root2 " + root2);
-      } */
+      System.out.println("root1 " + root1 + " pixelID1 " + pixelID1 + " root2 " + root2 + 
+           " pixelID2 " + pixelID2 + " dist " + colDistance);
+      
+      /*
+       * if (colDistance != 0) { System.out.println("distance " + colDistance + " root1 " + root1 +
+       * " root2 " + root2); }
+       */
 
       // Check if its in same region ignore this pair
       if (root1 == root2) {
@@ -198,13 +205,13 @@ public class Decomposor extends JPanel {
           // Add back to the priorityQueue with their root IDs
           priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
 
-        } else { // Regions are identical
+        } /*else { // Regions are identical
 
           // Union two regions with identical similarity
           ds.union(root1, root2);
 
-        }
-      } else {
+        } */
+      } else { // pixelID1 = root1 && pixel2ID2 = root2
 
         // Compute actual similarity
         Similarity actualSim = getSimilarity(this.ds, root1, root2);
@@ -212,16 +219,23 @@ public class Decomposor extends JPanel {
         // Gets actual color distance
         int colDistanceAct = actualSim.distance;
 
+        System.out.println("colDistance " + colDistance + " colDistanceAct " + colDistanceAct);
+                
         // Compare actual and queue color distances, if its not equal ignore pair
         if (colDistance != colDistanceAct) {
           continue;
         }
 
+        // exit from while if number of segments = K
+        if (ds.getNumSets() == K) {
+          break;
+        }
+        
         // Union two regions with minimal similarity
         int pixelRoot = ds.union(root1, root2);
 
         // If current distance not zero
-        if (colDistanceAct != 0) {
+       // if (colDistanceAct != 0) {
 
           // Add to queue similarity for all neighbors of new region root
 
@@ -247,7 +261,7 @@ public class Decomposor extends JPanel {
           }
           // }
 
-        }
+        //}
 
       }
 
@@ -266,7 +280,7 @@ public class Decomposor extends JPanel {
   /**
    * Recolor all pixels with the average color and save output image
    * 
-   * @param K is the number of disered segments
+   * @param K is the number of desired segments
    */
   public void outputResults(int K) {
     // collect all sets
@@ -275,18 +289,23 @@ public class Decomposor extends JPanel {
     // create and fill list to store region parameters pairs <size, root id>
     ArrayList<Pair<Integer>> sorted_regions = new ArrayList<Pair<Integer>>();
 
+    int sum = 0;
+
     int width = this.image.getWidth();
     int height = this.image.getHeight();
     for (int h = 0; h < height; h++) {
       for (int w = 0; w < width; w++) {
         int id = getID(new Pixel(w, h));
         int parentID = ds.find(id);
-        if (id != parentID) {
+        if (id != parentID) { // ignore non root elements
           continue;
         }
         sorted_regions.add(new Pair<Integer>(ds.get(parentID).size(), parentID));
+        sum += ds.get(parentID).size();
       } // end for w
     } // end for h
+
+    System.out.println("Item count " + sum);
 
     // sort the regions first by size if size equal sort by rootid
     Collections.sort(sorted_regions, new Comparator<Pair<Integer>>() {
@@ -382,7 +401,7 @@ public class Decomposor extends JPanel {
       this.q = q_;
     }
 
-    T p, q;    
+    T p, q;
   }
 
   /**
@@ -392,7 +411,7 @@ public class Decomposor extends JPanel {
     public Pixel(int w, int h) {
       super(w, h);
     }
-    
+
   }
 
   /**
