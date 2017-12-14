@@ -56,6 +56,53 @@ public class Decomposor extends JPanel {
   }
 
   /**
+   * Optimized version of getNeighborSets, add neighbors with greater indexes
+   * Ex. for Pixel(width = 1, height = 1) add neighbors Pixel(0,2), Pixel(2,1), Pixel(2,2), Pixel(1,2) 
+   * 
+   * @param ds the disjoint set
+   * @param root the id of region to find neighbors
+   * @return set of adjacent regions (represented by their root ids) sorted by natural order
+   * @see getNeighborSets
+   */
+  private TreeSet<Integer> getNeighborSetsOpt(DisjointSets<Pixel> ds, int root) {
+
+    // create the returned data structure with sorting in natural order
+    TreeSet<Integer> result = new TreeSet<Integer>();
+
+    // get target set by its root
+    Set<Pixel> targetSet = ds.get(root);
+
+    // iterate through targetSet to find all neighbors
+    for (Iterator<Pixel> itTS = targetSet.iterator(); itTS.hasNext();) {
+
+      // compute current Pixel and its ID
+      Pixel curPixel = itTS.next();
+
+      // Get array of neighbors of current Pixel
+      ArrayList<Pixel> arrNeighbors = getNeighbors(curPixel);
+
+      // Iterate thought all neighbors and add their ID to result
+      // Ignore neighbors in same root as parameter region root
+      for (Pixel neighPixel : arrNeighbors) {
+        int neighID = getID(neighPixel);
+        int neighRoot = ds.find(neighID);
+        
+        // ignore Pixel with smaller indexes
+        if ((neighPixel.q < curPixel.q) || 
+            ((neighPixel.q == curPixel.q) && (neighPixel.p <= curPixel.p))) {
+          continue;
+        }
+        
+        if (neighRoot != root) {
+          result.add(neighRoot);
+        }
+      }
+    }
+
+    return result;
+  }
+  
+  /**
    * Compute the similarity between two given regions R1 and R2. Compute the average color, C, of
    * the union of these two regions and compute the sum of the color differences between C and all
    * pixels in R1 and R2.
@@ -151,6 +198,7 @@ public class Decomposor extends JPanel {
 
       // Get ordered set of neighbors of region of the pixel
       TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, pixelRoot);
+      //TreeSet<Integer> neighborsRoot = getNeighborSetsOpt(this.ds, pixelRoot);
 
       // Iterate thought neighbors
       for (Integer neighborRoot : neighborsRoot) {
@@ -165,7 +213,8 @@ public class Decomposor extends JPanel {
 
     // loop while number of regions not reduced to K
     //while (ds.getNumSets() >= K) {
-    for(;;) {
+    while (!priorityQueue.isEmpty()) {
+    //for(;;) {
 
       // Get smallest Similarity
       Similarity minSim = priorityQueue.remove();
@@ -200,12 +249,16 @@ public class Decomposor extends JPanel {
       // Check if pixelID1 or pixelID2 not equals to their root IDs
       if ((pixelID1 != root1) || (pixelID2 != root2)) {
 
-        if (colDistance > 0) { // Regions are not identical
+        continue;
+        
+       /* if (colDistance > 0) { // Regions are not identical
 
           // Add back to the priorityQueue with their root IDs
           priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
 
-        } /*else { // Regions are identical
+        }
+        */
+         /*else { // Regions are identical
 
           // Union two regions with identical similarity
           ds.union(root1, root2);
@@ -251,14 +304,20 @@ public class Decomposor extends JPanel {
            */
           // Get ordered set of neighbors of region of the pixel
           TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, pixelRoot);
+        //TreeSet<Integer> neighborsRoot = getNeighborSetsOpt(this.ds, pixelRoot);
 
           // Iterate thought neighbors
           for (Integer neighborRoot : neighborsRoot) {
 
             // Fill similarity with root values
             priorityQueue.add(getSimilarity(this.ds, pixelRoot, neighborRoot));
-
+            //System.out.println("neighborsRoot " + neighborsRoot);
           }
+          
+          /*System.out.println("Union root1 " + root1 + " root2 " + root2 + " UnionRoot " + 
+          pixelRoot + " priorityQueue.size " + priorityQueue.size());*/
+          
+          //break;
           // }
 
         //}
