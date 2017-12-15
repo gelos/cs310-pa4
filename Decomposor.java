@@ -14,6 +14,9 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 public class Decomposor extends JPanel {
+
+  static final String OUTPUT_PATH = "./my_output";
+  
   //
   // TODO: remove Task 2: Get a set of neighboring regions (10%)
   /**
@@ -165,7 +168,8 @@ public class Decomposor extends JPanel {
 
     // loop while number of regions not reduced to K
     //while (ds.getNumSets() >= K) {
-    for(;;) {
+    while (!priorityQueue.isEmpty()) {
+    //for(;;) {
 
       // Get smallest Similarity
       Similarity minSim = priorityQueue.remove();
@@ -200,12 +204,17 @@ public class Decomposor extends JPanel {
       // Check if pixelID1 or pixelID2 not equals to their root IDs
       if ((pixelID1 != root1) || (pixelID2 != root2)) {
 
-        if (colDistance > 0) { // Regions are not identical
+        // ignore it
+        continue;
+        
+        /*if (colDistance > 0) { // Regions are not identical
 
           // Add back to the priorityQueue with their root IDs
           priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
 
-        } /*else { // Regions are identical
+        } */ 
+        
+        /*else { // Regions are identical
 
           // Union two regions with identical similarity
           ds.union(root1, root2);
@@ -227,7 +236,7 @@ public class Decomposor extends JPanel {
         }
 
         // exit from while if number of segments = K
-        if (ds.getNumSets() == K) {
+        if (ds.getNumSets() <= K) {
           break;
         }
         
@@ -384,7 +393,8 @@ public class Decomposor extends JPanel {
       System.err.println("! Error: Failed to read " + imgfile + ", error msg: " + e);
       return;
     }
-    this.img_filename = imgfile.substring(0, imgfile.lastIndexOf('.')); // remember the filename
+    //this.img_filename = imgfile.substring(0, imgfile.lastIndexOf('.')); // remember the filename
+    this.img_filename = OUTPUT_PATH + imgfile.substring(imgfile.lastIndexOf('/'), imgfile.lastIndexOf('.')); // remember the filename
   }
 
 
