@@ -167,8 +167,8 @@ public class Decomposor extends JPanel {
     //System.out.println("priorityQueue.size " + priorityQueue.size());
 
     // loop while number of regions not reduced to K
-    //while (ds.getNumSets() >= K) {
-    while (!priorityQueue.isEmpty()) {
+    while (ds.getNumSets() > K) {
+    //while (!priorityQueue.isEmpty()) {
     //for(;;) {
 
       // Get smallest Similarity
@@ -205,21 +205,22 @@ public class Decomposor extends JPanel {
       if ((pixelID1 != root1) || (pixelID2 != root2)) {
 
         // ignore it
-        continue;
+        //continue;
         
-        /*if (colDistance > 0) { // Regions are not identical
+        if (colDistance > 0) { // Regions are not identical
 
           // Add back to the priorityQueue with their root IDs
-          priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
+          //priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
+          priorityQueue.add(getSimilarity(this.ds, root1, root2));
 
-        } */ 
+        } 
         
-        /*else { // Regions are identical
+        else { // Regions are identical
 
           // Union two regions with identical similarity
           ds.union(root1, root2);
 
-        } */
+        }
       } else { // pixelID1 = root1 && pixel2ID2 = root2
 
         // Compute actual similarity
@@ -235,16 +236,18 @@ public class Decomposor extends JPanel {
           continue;
         }
 
+        /*
         // exit from while if number of segments = K
         if (ds.getNumSets() <= K) {
           break;
         }
+        */
         
         // Union two regions with minimal similarity
         int pixelRoot = ds.union(root1, root2);
 
         // If current distance not zero
-       // if (colDistanceAct != 0) {
+        if (colDistanceAct != 0) {
 
           // Add to queue similarity for all neighbors of new region root
 
@@ -270,7 +273,7 @@ public class Decomposor extends JPanel {
           }
           // }
 
-        //}
+        }
 
       }
 
