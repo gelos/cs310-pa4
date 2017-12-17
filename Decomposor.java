@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class Decomposor extends JPanel {
 
   static final String OUTPUT_PATH = "./my_output";
-  
+
   //
   // TODO: remove Task 2: Get a set of neighboring regions (10%)
   /**
@@ -111,7 +111,7 @@ public class Decomposor extends JPanel {
 
     return new Similarity(sumSimilarity, getPixel(root1), getPixel(root2));
     // TODO: Check This!!!
-    //return new Similarity(sumSimilarity / sizeSumR1R2, getPixel(root1), getPixel(root2));
+    // return new Similarity(sumSimilarity / sizeSumR1R2, getPixel(root1), getPixel(root2));
   }
 
   /**
@@ -164,21 +164,22 @@ public class Decomposor extends JPanel {
       }
     }
 
-    //System.out.println("priorityQueue.size " + priorityQueue.size());
+    // System.out.println("priorityQueue.size " + priorityQueue.size());
 
     // loop while number of regions not reduced to K
     while (ds.getNumSets() > K) {
-    //while (!priorityQueue.isEmpty()) {
-    //for(;;) {
+      // while (!priorityQueue.isEmpty()) {
+      // for(;;) {
 
       // Get smallest Similarity
       Similarity minSim = priorityQueue.remove();
-      
-      System.out.println("Disjoint set size " + ds.getNumSets() + " priorityQueue.size " + priorityQueue.size());
-      
+
+      System.out.println(
+          "Disjoint set size " + ds.getNumSets() + " priorityQueue.size " + priorityQueue.size());
+
       // Get color distance
       int colDistance = minSim.distance;
-      
+
       // Get root IDs for adjacent Pixels
       int pixelID1 = getID(minSim.pixels.p);
       int pixelID2 = getID(minSim.pixels.q);
@@ -187,9 +188,9 @@ public class Decomposor extends JPanel {
       // int root1 = getID(minSim.pixels.p);
       // int root2 = getID(minSim.pixels.q);
 
-      System.out.println("root1 " + root1 + " pixelID1 " + pixelID1 + " root2 " + root2 + 
-           " pixelID2 " + pixelID2 + " dist " + colDistance);
-      
+      System.out.println("root1 " + root1 + " pixelID1 " + pixelID1 + " root2 " + root2
+          + " pixelID2 " + pixelID2 + " dist " + colDistance);
+
       /*
        * if (colDistance != 0) { System.out.println("distance " + colDistance + " root1 " + root1 +
        * " root2 " + root2); }
@@ -205,20 +206,41 @@ public class Decomposor extends JPanel {
       if ((pixelID1 != root1) || (pixelID2 != root2)) {
 
         // ignore it
-        //continue;
+        // continue;
+
+        Similarity _actualSim = getSimilarity(this.ds, root1, root2);
         
-        if (colDistance > 0) { // Regions are not identical
+        //if (colDistance > 0) { // Regions are not identical
+        
 
           // Add back to the priorityQueue with their root IDs
-          //priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
-          priorityQueue.add(getSimilarity(this.ds, root1, root2));
+          // priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
 
-        } 
-        
+          
+
+          if (_actualSim.distance > 0) {
+            priorityQueue.add(getSimilarity(this.ds, root1, root2));
+          }
+
+        //}
+
         else { // Regions are identical
 
           // Union two regions with identical similarity
-          ds.union(root1, root2);
+          int _pixelRoot = ds.union(root1, root2);
+
+
+          // TODO result changes, but not equal to mlien
+          /*
+           * TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, _pixelRoot);
+           * 
+           * // Iterate thought neighbors for (Integer neighborRoot : neighborsRoot) {
+           * 
+           * // Fill similarity with root values priorityQueue.add(getSimilarity(this.ds,
+           * _pixelRoot, neighborRoot));
+           * 
+           * }
+           */
 
         }
       } else { // pixelID1 = root1 && pixel2ID2 = root2
@@ -230,24 +252,24 @@ public class Decomposor extends JPanel {
         int colDistanceAct = actualSim.distance;
 
         System.out.println("colDistance " + colDistance + " colDistanceAct " + colDistanceAct);
-                
+
         // Compare actual and queue color distances, if its not equal ignore pair
         if (colDistance != colDistanceAct) {
           continue;
+          // TODO do not work
+          // priorityQueue.add(actualSim);
+
         }
 
         /*
-        // exit from while if number of segments = K
-        if (ds.getNumSets() <= K) {
-          break;
-        }
-        */
-        
+         * // exit from while if number of segments = K if (ds.getNumSets() <= K) { break; }
+         */
+
         // Union two regions with minimal similarity
         int pixelRoot = ds.union(root1, root2);
 
         // If current distance not zero
-        if (colDistanceAct != 0) {
+        if (colDistance > 0) {
 
           // Add to queue similarity for all neighbors of new region root
 
@@ -396,8 +418,11 @@ public class Decomposor extends JPanel {
       System.err.println("! Error: Failed to read " + imgfile + ", error msg: " + e);
       return;
     }
-    //this.img_filename = imgfile.substring(0, imgfile.lastIndexOf('.')); // remember the filename
-    this.img_filename = OUTPUT_PATH + imgfile.substring(imgfile.lastIndexOf('/'), imgfile.lastIndexOf('.')); // remember the filename
+    // this.img_filename = imgfile.substring(0, imgfile.lastIndexOf('.')); // remember the filename
+    this.img_filename =
+        OUTPUT_PATH + imgfile.substring(imgfile.lastIndexOf('/'), imgfile.lastIndexOf('.')); // remember
+                                                                                             // the
+                                                                                             // filename
   }
 
 
