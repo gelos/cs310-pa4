@@ -1,34 +1,30 @@
-
-// Task 1. DisjointSets class (10%)
-
-// hint: you can use the DisjointSets from your textbook
-
 import java.util.ArrayList;
 
 /**
- * Disjoint sets class, using union by size and path compression.
+ * Disjoint sets class, using union by size and path compression. Internal storage, use ArraList as
+ * Set<T> and int[] as parent storage.
  *
  * @param <T> the generic type
  */
 public class DisjointSets<T> {
 
   /**
-   * Constructor, init internal data structures. Fill disjointset with given data, use one data
-   * element as one set.
+   * Construct and initialize internal data structures. Fill DisjointSets<T> with given
+   * ArrayList<T>, use one ArrayList<T> element as one Set<T>.
    * 
-   * @param data the arraylist of data
+   * @param data the ArrayList<T> of data
    */
   public DisjointSets(ArrayList<T> data) {
 
-    // init sets storage
+    // initialize sets storage
     sets = new ArrayList<Set<T>>();
 
-    // init parent storage
+    // initialize parent storage
     s = new int[data.size()];
 
+    // fill sets storage, one set - one element
     for (int i = 0; i < data.size(); i++) {
 
-      // fill sets storage, one set - one element
       T element = data.get(i);
       Set<T> newset = new Set<T>(element);
       this.sets.add(newset);
@@ -41,7 +37,8 @@ public class DisjointSets<T> {
   }
 
   /**
-   * Union two sets given by their root ids Use union by size, small set add to big.
+   * Union two sets given by their root IDs. Use union by size, set with smaller size added to
+   * bigger one.
    *
    * @param root1 the first set root id
    * @param root2 the second set root id
@@ -49,32 +46,38 @@ public class DisjointSets<T> {
    */
   public int union(int root1, int root2) {
 
+    // do not union if it is same set
     if (root1 == root2) {
       return root1;
     }
 
+    // gets sets
+    Set<T> set1 = sets.get(root1);
+    Set<T> set2 = sets.get(root2);
+
+    // TODO check if swap this how result changes?
+
     // union small set to big
-    if (this.sets.get(root1).size() > this.sets.get(root2).size()) {
+    if (set1.size() > set2.size()) {
       s[root2] = root1;
-      this.sets.get(root1).addAll(this.sets.get(root2));
-      this.sets.get(root2).clear();
+      set1.addAll(set2);
+      set2.clear();
       this.setsCount--;
       return root1;
     } else {
       s[root1] = root2;
-      this.sets.get(root2).addAll(this.sets.get(root1));
-      this.sets.get(root1).clear();
+      set2.addAll(set1);
+      set1.clear();
       this.setsCount--;
       return root2;
     }
-
   }
 
   /**
-   * Return root id of x set. Implement path compression.
+   * Recursively find root ID of x set. Implement path compression.
    * 
    * @param x the element
-   * @return root id of the x set
+   * @return root ID of the x set
    */
   public int find(int x) {
 
@@ -87,10 +90,10 @@ public class DisjointSets<T> {
   }
 
   /**
-   * Get all the data in set for given root id.
+   * Get all the data in set for given root ID.
    *
    * @param root the root id
-   * @return set of data for given root id
+   * @return set of data for given root ID
    */
   public Set<T> get(int root) {
     return sets.get(root);

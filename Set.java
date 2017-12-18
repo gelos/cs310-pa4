@@ -1,24 +1,9 @@
-
-//
-// Task 1. Set<T> class (5%)
-// This is used in DisjointSets<T> to store actual data in the same sets
-//
-
-// You cannot import additonal items
 import java.util.AbstractCollection;
 import java.util.Iterator;
-// You cannot import additonal items
-
-//
-// Hint: if you think really hard, you will realize this class Set<T> is in fact just a list
-// because DisjointSets<T> ensures that all values stored in Set<T> must be unique,
-// but should it be array list or linked list??
-//
-
-// http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/java/util/ArrayList.java#ArrayList
 
 /**
- * The Class Set.
+ * Class set used in DisjointSets<T> to store actual data in the same sets. Use array as internal
+ * storage.
  *
  * @param <T> the generic type
  */
@@ -29,7 +14,16 @@ public class Set<T> extends AbstractCollection<T> {
   //
 
   /**
-   * Instantiates a new sets with element.
+   * Instantiate a new empty Set<T> with internal storage size equals DEFAULT_CAPACITY.
+   * 
+   */
+  public Set() {
+    internalStorage = (T[]) new Object[DEFAULT_CAPACITY];
+    size = 0;
+  }
+
+  /**
+   * Instantiate a new Set<T> with one element.
    *
    * @param element the element
    */
@@ -39,15 +33,7 @@ public class Set<T> extends AbstractCollection<T> {
   }
 
   /**
-   * Instantiates a new empty sets.
-   */
-  public Set() {
-    internalStorage = (T[]) new Object[10];
-    size = 0;
-  }
-
-  /**
-   * Add item.
+   * Add item to this Set<T>.
    *
    * @param item the item
    * @return true, if successful
@@ -60,7 +46,7 @@ public class Set<T> extends AbstractCollection<T> {
   }
 
   /**
-   * Adds set of T.
+   * Adds set of T to this Set<T>.
    *
    * @param other the set of elements T
    * @return true, if successful
@@ -75,7 +61,7 @@ public class Set<T> extends AbstractCollection<T> {
   }
 
   /**
-   * Clear set.
+   * Clear Set<T>.
    *
    * @see java.util.AbstractCollection#clear()
    */
@@ -87,9 +73,9 @@ public class Set<T> extends AbstractCollection<T> {
   }
 
   /**
-   * Return size of set.
-   *
-   * @return the int size of set
+   * Return size of this Set<T>.
+   * 
+   * @return int, the size of set
    * @see java.util.AbstractCollection#size()
    */
   public int size() {
@@ -98,7 +84,7 @@ public class Set<T> extends AbstractCollection<T> {
 
   /**
    * Return Iterator object.
-   *
+   * 
    * @return the iterator
    * @see java.util.AbstractCollection#iterator()
    */
@@ -131,11 +117,13 @@ public class Set<T> extends AbstractCollection<T> {
   /** The size. */
   private int size = 0;
 
+  /** Default capacity constant */
+  private static final int DEFAULT_CAPACITY = 100;
+
   /**
-   * Ensure capacity of at least minCapacity. 
-   * If required internal storage size grows by approximate
-   * 50%.
-   *
+   * Internal method.Ensure capacity of at least minCapacity. If required internal storage size
+   * grows by approximate 50%.
+   * 
    * @param minCapacity the minimal capacity
    */
   private void ensureCapacity(int minCapacity) {

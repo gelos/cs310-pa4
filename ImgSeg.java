@@ -25,8 +25,9 @@ public class ImgSeg {
     //String img_name = "./image/2-5.png";
     // String img_name = "./image/eclipse.jpg";
     // String img_name = "./image/Mona-Lisa.jpg";
-    String img_name = "./image/wonder.jpg";
+    //String img_name = "./image/wonder.jpg";
     //String img_name = "./image/nano3.png";
+    String img_name = "./image/chimp-small.jpg";
     //String img_name = "./image/tiny.png";
     // System.out.println(ImgSeg.class.getClassLoader().getResource("").getPath());
 
