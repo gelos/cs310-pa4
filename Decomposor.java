@@ -149,6 +149,7 @@ public class Decomposor extends JPanel {
     // Create and fill priority queue
     PriorityQueue<Similarity> priorityQueue = new PriorityQueue<Similarity>();
 
+    System.out.println(" ");
     // TODO Check partial init
     // Iterate all pixels in data to get all pars of adjacent pixels
     for (Pixel pixel : data) {
@@ -158,17 +159,28 @@ public class Decomposor extends JPanel {
 
       // Get ordered set of neighbors current region given by its root ID
       TreeSet<Integer> neighborsRoot = getNeighborSets(ds, pixelRoot);
+      
+      System.out.print(" p(" + pixel.p + ":" + pixel.q + ") r:" + pixelRoot + " " + neighborsRoot);
 
       // Iterate thought neighbors
       for (Integer neighborRoot : neighborsRoot) {
 
+       /* if (pixelRoot == 10) {
+          System.out.println(getPixel(neighborRoot).toString());
+        }
+        */
         // Fill similarity with root values
         priorityQueue.add(getSimilarity(ds, pixelRoot, neighborRoot));
 
       }
     }
+    System.out.println(" ");
 
     System.out.println(priorityQueue);
+    
+    // Print priorityQueue for debug purpose
+    
+    
     
     // System.out.println("priorityQueue.size " + priorityQueue.size());
 
@@ -464,8 +476,8 @@ public class Decomposor extends JPanel {
      */
     @Override
     public String toString() {
-      return ("p1(" + pixels.p.p + ":" + pixels.q.q + "), " +
-          "p2(" + pixels.q.p + ":" + pixels.q.q + "), " +
+      return ("p1(" + pixels.p.p + ":" + pixels.p.q + ") " +
+          "p2(" + pixels.q.p + ":" + pixels.q.q + ") " +
           "d:" + distance);
     }
 
