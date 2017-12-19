@@ -13,42 +13,47 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import javax.swing.JPanel;
 
+/**
+ * The Class Decomposor.
+ */
 public class Decomposor extends JPanel {
 
+  /** The Constant OUTPUT_PATH. */
   static final String OUTPUT_PATH = "./my_output";
 
-  //
-  // TODO: remove Task 2: Get a set of neighboring regions (10%)
   /**
-   * Given a disjoint set and a region (defined by its root id), return a list of adjacent regions
-   * (again, represented by their root ids) which are DIFFERENT from the parameter region.
+   * Given a disjoint set and a region (defined by its root ID), return a list of adjacent regions
+   * (again, represented by their root IDs) which are DIFFERENT from the parameter region.
    * 
-   * @param ds the disjoint set
-   * @param root the id of region to find neighbors
-   * @return set of adjacent regions (represented by their root ids) sorted by natural order
+   * @param ds the DisjointSets
+   * @param root the ID of region to find neighbors
+   * @return set of adjacent regions (represented by their root IDs) sorted by natural order
    */
+
+  // FIXME check how used sorted property of TreeSet
   private TreeSet<Integer> getNeighborSets(DisjointSets<Pixel> ds, int root) {
 
-    // create the returned data structure with sorting in natural order
+    // Create the returned data structure with sorting in natural order
     TreeSet<Integer> result = new TreeSet<Integer>();
 
-    // get target set by its root
+    // Get target set by its root ID
     Set<Pixel> targetSet = ds.get(root);
 
-    // iterate through targetSet to find all neighbors
+    // Iterate through targetSet to find all neighbors
     for (Iterator<Pixel> itTS = targetSet.iterator(); itTS.hasNext();) {
 
-      // compute current Pixel and its ID
+      // Compute current Pixel and its ID
       Pixel curPixel = itTS.next();
 
       // Get array of neighbors of current Pixel
       ArrayList<Pixel> arrNeighbors = getNeighbors(curPixel);
 
       // Iterate thought all neighbors and add their ID to result
-      // Ignore neighbors in same root as parameter region root
       for (Pixel neighPixel : arrNeighbors) {
         int neighID = getID(neighPixel);
         int neighRoot = ds.find(neighID);
+
+        // Ignore neighbors in same root as parameter region root
         if (neighRoot != root) {
           result.add(neighRoot);
         }
@@ -63,9 +68,9 @@ public class Decomposor extends JPanel {
    * the union of these two regions and compute the sum of the color differences between C and all
    * pixels in R1 and R2.
    * 
-   * @param ds the set of Pixel
-   * @param root1 the Pixel of root id first region R1
-   * @param root2 the Pixel of root id second region R2
+   * @param ds the DisjointSets of Pixel
+   * @param root1 the root ID first region R1
+   * @param root2 the root ID second region R2
    * @return Similarity class
    * @see Decomposor.Similarity
    * @see Decomposor.Pixel
@@ -80,14 +85,12 @@ public class Decomposor extends JPanel {
     Color C1 = computeAverageColor(R1);
     Color C2 = computeAverageColor(R2);
 
-    // System.out.println("C1 " + C1 + " C2 " + C2);
-
-    // Compute size
+    // Compute sets size
     int sizeR1 = R1.size();
     int sizeR2 = R2.size();
     int sizeSumR1R2 = sizeR1 + sizeR2;
 
-    // Compute average color of R1, R2 union
+    // Compute average color of R1 and R2 union
     int redC = ((C1.getRed() * sizeR1) + (C2.getRed() * sizeR2)) / (sizeSumR1R2);
     int greenC = ((C1.getGreen() * sizeR1) + (C2.getGreen() * sizeR2)) / (sizeSumR1R2);
     int blueC = ((C1.getBlue() * sizeR1) + (C2.getBlue() * sizeR2)) / (sizeSumR1R2);
@@ -96,7 +99,7 @@ public class Decomposor extends JPanel {
     // Init color distance sum
     int sumSimilarity = 0;
 
-    // Iterate R1 and R2 and compute sum of similarity
+    // Iterate through R1 and R2 and compute sum of similarity
     for (Iterator<Pixel> itR1 = R1.iterator(); itR1.hasNext();) {
       Pixel curPixel = itR1.next();
       Color curColor = getColor(curPixel);
@@ -109,9 +112,8 @@ public class Decomposor extends JPanel {
       sumSimilarity += getDifference(averageC, curColor);
     }
 
+    // Return similarity
     return new Similarity(sumSimilarity, getPixel(root1), getPixel(root2));
-    // TODO: Check This!!!
-    // return new Similarity(sumSimilarity / sizeSumR1R2, getPixel(root1), getPixel(root2));
   }
 
   /**
@@ -121,11 +123,13 @@ public class Decomposor extends JPanel {
    * @param K is the number of desired segments
    */
   public void segment(int K) {
+
     if (K < 2) {
       throw new IllegalArgumentException(
           new String("! Error: K should be greater than 1, current K=" + K));
     }
 
+    // Get image parameters
     int width = this.image.getWidth();
     int height = this.image.getHeight();
 
@@ -138,44 +142,54 @@ public class Decomposor extends JPanel {
         data.add(new Pixel(w, h));
       }
     }
-    this.ds = new DisjointSets(data);
+    ds = new DisjointSets(data);
 
     System.out.println("ds.size " + ds.getNumSets());
 
     // Create and fill priority queue
     PriorityQueue<Similarity> priorityQueue = new PriorityQueue<Similarity>();
 
+    // TODO Check partial init
     // Iterate all pixels in data to get all pars of adjacent pixels
     for (Pixel pixel : data) {
 
-      // Get root of current pixel
-      // int pixelRoot = ds.find(getID(pixel));
-      int pixelRoot = getID(pixel);
+      // Get root ID of current pixel
+      int pixelRoot = ds.find(getID(pixel));
 
-      // Get ordered set of neighbors of region of the pixel
-      TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, pixelRoot);
+      // Get ordered set of neighbors current region given by its root ID
+      TreeSet<Integer> neighborsRoot = getNeighborSets(ds, pixelRoot);
 
       // Iterate thought neighbors
       for (Integer neighborRoot : neighborsRoot) {
 
         // Fill similarity with root values
-        priorityQueue.add(getSimilarity(this.ds, pixelRoot, neighborRoot));
+        priorityQueue.add(getSimilarity(ds, pixelRoot, neighborRoot));
 
       }
     }
 
+    System.out.println(priorityQueue);
+    
     // System.out.println("priorityQueue.size " + priorityQueue.size());
 
-    // loop while number of regions not reduced to K
+    // Loop while number of regions not reduced to K
     while (ds.getNumSets() > K) {
+
+      // Output point character every 100 union
+
+      if (K % 100 == 0) {
+        System.out.print(".");
+      }
+
+
       // while (!priorityQueue.isEmpty()) {
       // for(;;) {
 
       // Get smallest Similarity
       Similarity minSim = priorityQueue.remove();
 
-      System.out.println(
-          "Disjoint set size " + ds.getNumSets() + " priorityQueue.size " + priorityQueue.size());
+      //System.out.println(
+        //  "Disjoint set size " + ds.getNumSets() + " priorityQueue.size " + priorityQueue.size());
 
       // Get color distance
       int colDistance = minSim.distance;
@@ -185,85 +199,62 @@ public class Decomposor extends JPanel {
       int pixelID2 = getID(minSim.pixels.q);
       int root1 = ds.find(pixelID1);
       int root2 = ds.find(pixelID2);
-      // int root1 = getID(minSim.pixels.p);
-      // int root2 = getID(minSim.pixels.q);
 
+      if (colDistance != 0) {
+      
       System.out.println("root1 " + root1 + " pixelID1 " + pixelID1 + " root2 " + root2
           + " pixelID2 " + pixelID2 + " dist " + colDistance);
+      }
 
       /*
        * if (colDistance != 0) { System.out.println("distance " + colDistance + " root1 " + root1 +
        * " root2 " + root2); }
        */
 
-      // Check if its in same region ignore this pair
+      // Check if regions not disjoint (is same region) ignore this pair
       if (root1 == root2) {
-        // priorityQueue.remove();
         continue;
       }
 
       // Check if pixelID1 or pixelID2 not equals to their root IDs
       if ((pixelID1 != root1) || (pixelID2 != root2)) {
 
-        // ignore it
-        // continue;
+        // TODO try to recalc similarity
+        // Similarity _actualSim = getSimilarity(this.ds, root1, root2);
 
-        Similarity _actualSim = getSimilarity(this.ds, root1, root2);
-        
-        //if (colDistance > 0) { // Regions are not identical
-        
+        // if color in regions not equal
+        if (colDistance > 0) { // Regions are not identical
 
           // Add back to the priorityQueue with their root IDs
-          // priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
+          priorityQueue.add(new Similarity(colDistance, getPixel(root1), getPixel(root2)));
 
-          
-
-          if (_actualSim.distance > 0) {
-            priorityQueue.add(getSimilarity(this.ds, root1, root2));
-          }
-
-        //}
-
-        else { // Regions are identical
-
-          // Union two regions with identical similarity
-          int _pixelRoot = ds.union(root1, root2);
-
-
-          // TODO result changes, but not equal to mlien
+          // TODO try to recalc similarity
           /*
-           * TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, _pixelRoot);
-           * 
-           * // Iterate thought neighbors for (Integer neighborRoot : neighborsRoot) {
-           * 
-           * // Fill similarity with root values priorityQueue.add(getSimilarity(this.ds,
-           * _pixelRoot, neighborRoot));
-           * 
+           * if (_actualSim.distance > 0) { priorityQueue.add(getSimilarity(this.ds, root1, root2));
            * }
            */
 
+        } else { // Regions are identical
+
+          // Union two regions with identical color
+          ds.union(root1, root2);
+
         }
+
       } else { // pixelID1 = root1 && pixel2ID2 = root2
 
         // Compute actual similarity
-        Similarity actualSim = getSimilarity(this.ds, root1, root2);
+        Similarity actualSim = getSimilarity(ds, root1, root2);
 
         // Gets actual color distance
         int colDistanceAct = actualSim.distance;
 
         System.out.println("colDistance " + colDistance + " colDistanceAct " + colDistanceAct);
 
-        // Compare actual and queue color distances, if its not equal ignore pair
+        // Ignore pair if similarity had changed
         if (colDistance != colDistanceAct) {
           continue;
-          // TODO do not work
-          // priorityQueue.add(actualSim);
-
         }
-
-        /*
-         * // exit from while if number of segments = K if (ds.getNumSets() <= K) { break; }
-         */
 
         // Union two regions with minimal similarity
         int pixelRoot = ds.union(root1, root2);
@@ -273,16 +264,6 @@ public class Decomposor extends JPanel {
 
           // Add to queue similarity for all neighbors of new region root
 
-          /*
-           * // Get new region Set<Pixel> R = ds.get(root);
-           * 
-           * // Iterate region for (Iterator<Pixel> it = R.iterator(); it.hasNext(); ) {
-           * 
-           * Pixel pixel = it.next();
-           * 
-           * // Get root of current pixel int pixelRoot = root;
-           * 
-           */
           // Get ordered set of neighbors of region of the pixel
           TreeSet<Integer> neighborsRoot = getNeighborSets(this.ds, pixelRoot);
 
@@ -290,10 +271,9 @@ public class Decomposor extends JPanel {
           for (Integer neighborRoot : neighborsRoot) {
 
             // Fill similarity with root values
-            priorityQueue.add(getSimilarity(this.ds, pixelRoot, neighborRoot));
+            priorityQueue.add(getSimilarity(ds, pixelRoot, neighborRoot));
 
           }
-          // }
 
         }
 
@@ -301,29 +281,23 @@ public class Decomposor extends JPanel {
 
     }
 
-    // Todo: Your code here (remove this line)
-
-    // Hint: the algorithm is not fast and you are processing many pixels
-    // (e.g., 10,000 pixel for a small 100 by 100 image)
-    // output a "." every 100 unions so you get some progress updates.
-
   }
 
-  // Task 5: Output results (10%)
-  // Recolor all pixels with the average color and save output image
   /**
-   * Recolor all pixels with the average color and save output image
-   * 
+   * Change colors of all sets with the average color and save output image. Output sets size and
+   * average color in sorted by set size.
+   *
    * @param K is the number of desired segments
    */
   public void outputResults(int K) {
-    // collect all sets
+
+    // Collect all sets
     int region_counter = 1;
 
-    // create and fill list to store region parameters pairs <size, root id>
+    // Create and fill list to store region parameters pairs <size, root id>
     ArrayList<Pair<Integer>> sorted_regions = new ArrayList<Pair<Integer>>();
 
-    int sum = 0;
+   // int sum = 0;
 
     int width = this.image.getWidth();
     int height = this.image.getHeight();
@@ -335,13 +309,11 @@ public class Decomposor extends JPanel {
           continue;
         }
         sorted_regions.add(new Pair<Integer>(ds.get(parentID).size(), parentID));
-        sum += ds.get(parentID).size();
+        //sum += ds.get(parentID).size();
       } // end for w
     } // end for h
 
-    System.out.println("Item count " + sum);
-
-    // sort the regions first by size if size equal sort by rootid
+    // Sort the regions first by size if size equal sort by root ID
     Collections.sort(sorted_regions, new Comparator<Pair<Integer>>() {
       @Override
       public int compare(Pair<Integer> a, Pair<Integer> b) {
@@ -353,33 +325,31 @@ public class Decomposor extends JPanel {
     });
 
     // Recolors and output region info
-
-    // TODO: Your code here (remove this line)
-    // Hint: Use image.setRGB(x,y,c.getRGB()) to change the color of a pixel (x,y) to the given
-    // color "c"
     for (Iterator<Pair<Integer>> it = sorted_regions.iterator(); it.hasNext();) {
 
-      // get current region size, average color and root ID
+      // Get current region size, average color and root ID
       Pair<Integer> curPair = it.next();
       int curRoot = curPair.q;
       int curSize = curPair.p;
       Set<Pixel> curRegion = ds.get(curRoot);
       Color avgColor = computeAverageColor(curRegion);
 
-      // output region information
+      // Output region information
       System.out.println(
-          "region " + region_counter + " size = " + curSize + " color = " + avgColor.toString());
-      region_counter++;
+          "region " + region_counter + " size= " + curSize + " color = " + avgColor.toString());
 
-      // recolor image in current region
+      // Change Pixel color for current Set to average color
       for (Iterator<Pixel> itR = curRegion.iterator(); itR.hasNext();) {
         Pixel curPixel = itR.next();
-        this.image.setRGB(curPixel.p, curPixel.q, avgColor.getRGB());
+        image.setRGB(curPixel.p, curPixel.q, avgColor.getRGB());
       }
+
+      // Increment region counter
+      region_counter++;
 
     }
 
-    // save output image
+    // Save output image
     String out_filename = img_filename + "_seg_" + K + ".png";
     try {
       File ouptut = new File(out_filename);
@@ -390,24 +360,18 @@ public class Decomposor extends JPanel {
     }
   }
 
-  // -----------------------------------------------------------------------
-  //
-  //
-  // Todo: Read and provide comments, but do not change the following code
-  //
-  //
-  // -----------------------------------------------------------------------
-
-  //
-  // Data
-  //
+  /** The image. */
   public BufferedImage image; // this is the 2D array of RGB pixels
+
+  /** The image filename. */
   private String img_filename; // input image filename without .jpg or .png
+
+  /** The DisjointSets local variable. */
   private DisjointSets<Pixel> ds; // the disjoint set
 
   /**
-   * Constructor, read image from the file
-   * 
+   * Constructor, read image from the file.
+   *
    * @param imgfile the path to the file
    */
   public Decomposor(String imgfile) {
@@ -425,27 +389,43 @@ public class Decomposor extends JPanel {
                                                                                              // filename
   }
 
-
   //
   // Private classes below
   //
 
   /**
-   * Base class to store a couple of objects
+   * Base class to store a couple of objects.
+   *
+   * @param <T> the generic type
    */
   private static class Pair<T> {
+
+    /**
+     * Instantiates a new pair.
+     *
+     * @param p_ the p
+     * @param q_ the q
+     */
     public Pair(T p_, T q_) {
       this.p = p_;
       this.q = q_;
     }
 
+    /** The q, p storage */
     T p, q;
   }
 
   /**
-   * Class to store 2D coordinate (w,h) in an image
+   * Class to store 2D coordinate (w,h) in an image.
    */
   public static class Pixel extends Pair<Integer> {
+
+    /**
+     * Instantiates a new pixel.
+     *
+     * @param w the width
+     * @param h the height
+     */
     public Pixel(int w, int h) {
       super(w, h);
     }
@@ -453,24 +433,51 @@ public class Decomposor extends JPanel {
   }
 
   /**
-   * This class represents the similarity between the colors of two adjacent pixels or regions
-   *
+   * This class represents the similarity between the colors of two adjacent pixels or regions.
    */
   private class Similarity implements Comparable<Similarity> {
+
+    /**
+     * Instantiates a new similarity.
+     *
+     * @param d the distance
+     * @param p the root Pixel1
+     * @param q the root Pixel2
+     */
     public Similarity(int d, Pixel p, Pixel q) {
       this.distance = d;
       this.pixels = new Pair<Pixel>(p, q);
     }
 
+    /**
+     * Override default compareTo method
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
     public int compareTo(Similarity other) {
       return this.distance - other.distance;
     }
+    
+    /**
+     * Override toString method
+     */
+    @Override
+    public String toString() {
+      return ("p1(" + pixels.p.p + ":" + pixels.q.q + "), " +
+          "p2(" + pixels.q.p + ":" + pixels.q.q + "), " +
+          "d:" + distance);
+    }
 
-    // a pair of adjacent pixels or regions (represented by the "root" pixels)
+    /**
+     * The pixels. A pair of adjacent pixels or regions (represented by the "root" pixels)
+     */
     public Pair<Pixel> pixels;
 
-    // distance between the color of two pixels or two regions,
-    // smaller distance indicates higher similarity
+    /**
+     * The distance between the color of two pixels or two regions, smaller distance indicates
+     * higher similarity
+     */
     public int distance;
   }
 
@@ -479,8 +486,8 @@ public class Decomposor extends JPanel {
   //
 
   /**
-   * Convert a Pixel to an ID
-   * 
+   * Convert a Pixel to an ID.
+   *
    * @param pixel the Pixel object
    * @return pixel id
    */
@@ -488,10 +495,9 @@ public class Decomposor extends JPanel {
     return this.image.getWidth() * pixel.q + pixel.p;
   }
 
-  // convert ID back to pixel
   /**
-   * Convert ID back to pixel
-   * 
+   * Convert ID back to pixel.
+   *
    * @param id the Pixel ID
    * @return Pixel object
    * @see Pixel
@@ -507,8 +513,8 @@ public class Decomposor extends JPanel {
   }
 
   /**
-   * Return color for given pixel
-   * 
+   * Return color for given pixel.
+   *
    * @param p the Pixel object
    * @return Color object
    * @see Pixel
@@ -519,8 +525,8 @@ public class Decomposor extends JPanel {
   }
 
   /**
-   * Compute the average color of a collection of pixels
-   * 
+   * Compute the average color of a collection of pixels.
+   *
    * @param pixels the pixels collection
    * @return average color
    */
@@ -552,10 +558,10 @@ public class Decomposor extends JPanel {
   }
 
   /**
-   * Return array of 8-neighbors of a given pixel
-   * 
+   * Return array of 8-neighbors of a given pixel.
+   *
    * @param pixel the Pixel object
-   * @return arraylist of neighbors as Pixel objects
+   * @return ArrayList of neighbors as Pixel objects
    */
   private ArrayList<Pixel> getNeighbors(Pixel pixel) {
     ArrayList<Pixel> neighbors = new ArrayList<Pixel>();
@@ -577,9 +583,13 @@ public class Decomposor extends JPanel {
     return neighbors;
   }
 
-  //
-  // JPanel function
-  //
+
+  /**
+   * JPanel function
+   * 
+   * @see javax.swing.JComponent#paint(java.awt.Graphics)
+   */
+
   public void paint(Graphics g) {
     g.drawImage(this.image, 0, 0, this);
   }
