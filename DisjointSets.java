@@ -55,8 +55,6 @@ public class DisjointSets<T> {
     Set<T> set1 = sets.get(root1);
     Set<T> set2 = sets.get(root2);
 
-    // TODO check if swap this how result changes?
-
     // union small set to big
     if (set1.size() > set2.size()) {
       s[root2] = root1;

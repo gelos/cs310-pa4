@@ -133,8 +133,6 @@ public class PriorityQueue<T extends Comparable<T>> {
     return result.toString();
   }
   
-
-
   /**
    * Establish heap order property from an arbitrary arrangement of items. Runs in linear time.
    */
